@@ -1,0 +1,2264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blessed Secondary School — Management System</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<style>
+:root{
+  --navy:#0a1628;--navy2:#112240;--navy3:#1a3a5c;
+  --gold:#c9a84c;--gold2:#e8c96a;--gold3:#f5e199;
+  --cream:#f8f5ef;--white:#fff;
+  --red:#e53935;--green:#2e7d32;--blue:#1565c0;--orange:#f57c00;
+  --gray:#6b7280;--lightgray:#f3f4f6;--border:#e5e7eb;
+  --shadow:0 4px 24px rgba(10,22,40,.12);--shadow2:0 2px 8px rgba(10,22,40,.07);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--navy);min-height:100vh;}
+h1,h2,h3,h4{font-family:'Playfair Display',serif;}
+button{cursor:pointer;font-family:'DM Sans',sans-serif;}
+input,select,textarea{font-family:'DM Sans',sans-serif;}
+.hide{display:none!important;}
+.show{display:block!important;}
+.flex{display:flex;}
+.items-center{align-items:center;}
+.gap-2{gap:.5rem;}
+.gap-3{gap:.75rem;}
+.gap-4{gap:1rem;}
+
+/* ===== LANDING ===== */
+#page-landing{display:block;}
+.land-nav{background:var(--navy);padding:16px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.3);}
+.land-brand{display:flex;align-items:center;gap:12px;}
+.land-brand-icon{width:48px;height:48px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;}
+.land-brand-text h2{color:var(--gold);font-size:1rem;font-family:'Playfair Display',serif;line-height:1.2;}
+.land-brand-text p{color:#9ca3af;font-size:.7rem;}
+.land-nav-links{display:flex;gap:8px;}
+.btn-login{background:transparent;border:1.5px solid var(--gold);color:var(--gold);padding:8px 20px;border-radius:6px;font-size:.85rem;font-weight:500;transition:.2s;}
+.btn-login:hover{background:var(--gold);color:var(--navy);}
+
+.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 50%,var(--navy3) 100%);min-height:90vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:60px 20px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a84c' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");}
+.hero-content{position:relative;z-index:1;max-width:720px;}
+.hero-badge{display:inline-block;background:rgba(201,168,76,.15);border:1px solid var(--gold);color:var(--gold2);padding:6px 20px;border-radius:30px;font-size:.8rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:28px;}
+.hero h1{font-size:clamp(2.2rem,5vw,3.8rem);color:var(--white);line-height:1.15;margin-bottom:20px;}
+.hero h1 span{color:var(--gold2);}
+.hero p{color:#9ca3af;font-size:1.05rem;line-height:1.7;margin-bottom:40px;}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);padding:14px 36px;border:none;border-radius:8px;font-size:.95rem;font-weight:600;transition:.25s;box-shadow:0 4px 20px rgba(201,168,76,.35);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(201,168,76,.45);}
+.btn-secondary{background:transparent;border:2px solid rgba(255,255,255,.3);color:var(--white);padding:14px 36px;border-radius:8px;font-size:.95rem;font-weight:500;transition:.25s;}
+.btn-secondary:hover{border-color:var(--white);background:rgba(255,255,255,.08);}
+
+.land-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:24px;padding:60px 32px;background:var(--navy2);}
+.stat-card{text-align:center;padding:28px 16px;}
+.stat-num{font-family:'Playfair Display',serif;font-size:2.4rem;color:var(--gold);font-weight:700;}
+.stat-label{color:#9ca3af;font-size:.85rem;margin-top:6px;}
+
+.features-section{padding:80px 32px;max-width:1100px;margin:0 auto;}
+.section-title{text-align:center;margin-bottom:56px;}
+.section-title h2{font-size:2.2rem;color:var(--navy);margin-bottom:12px;}
+.section-title p{color:var(--gray);font-size:1rem;}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px;}
+.feat-card{background:var(--white);border-radius:16px;padding:32px 28px;border:1px solid var(--border);box-shadow:var(--shadow2);transition:.25s;}
+.feat-card:hover{box-shadow:var(--shadow);transform:translateY(-4px);}
+.feat-icon{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:20px;}
+.feat-icon.blue{background:#e3f2fd;}
+.feat-icon.green{background:#e8f5e9;}
+.feat-icon.gold{background:#fff8e1;}
+.feat-icon.red{background:#ffebee;}
+.feat-card h3{font-size:1.15rem;margin-bottom:10px;}
+.feat-card p{color:var(--gray);font-size:.9rem;line-height:1.65;}
+
+.portal-section{background:var(--navy);padding:80px 32px;text-align:center;}
+.portal-section h2{color:var(--white);font-size:2.2rem;margin-bottom:12px;}
+.portal-section>p{color:#9ca3af;margin-bottom:48px;}
+.portal-cards{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;max-width:900px;margin:0 auto;}
+.portal-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:40px 32px;width:240px;cursor:pointer;transition:.25s;}
+.portal-card:hover{background:rgba(201,168,76,.12);border-color:var(--gold);transform:translateY(-6px);}
+.portal-card .p-icon{font-size:3rem;margin-bottom:16px;}
+.portal-card h3{color:var(--white);font-size:1.1rem;margin-bottom:8px;}
+.portal-card p{color:#9ca3af;font-size:.82rem;}
+.portal-card .p-btn{display:inline-block;margin-top:20px;background:var(--gold);color:var(--navy);padding:8px 24px;border-radius:6px;font-size:.85rem;font-weight:600;}
+
+.land-footer{background:var(--navy2);padding:40px 32px;text-align:center;border-top:1px solid rgba(255,255,255,.08);}
+.land-footer p{color:#6b7280;font-size:.85rem;}
+.land-footer a{color:var(--gold);text-decoration:none;}
+
+/* ===== AUTH MODAL ===== */
+#auth-modal{display:none;position:fixed;inset:0;background:rgba(10,22,40,.85);z-index:1000;align-items:center;justify-content:center;padding:20px;}
+#auth-modal.active{display:flex;}
+.auth-box{background:var(--white);border-radius:20px;padding:40px 36px;width:100%;max-width:420px;position:relative;}
+.auth-close{position:absolute;top:16px;right:20px;background:none;border:none;font-size:1.4rem;color:var(--gray);}
+.auth-logo{text-align:center;margin-bottom:28px;}
+.auth-logo .a-icon{width:60px;height:60px;background:linear-gradient(135deg,var(--navy),var(--navy3));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin:0 auto 12px;}
+.auth-logo h2{font-size:1.4rem;color:var(--navy);}
+.auth-logo p{color:var(--gray);font-size:.85rem;}
+.auth-tabs{display:flex;margin-bottom:24px;border-bottom:2px solid var(--border);}
+.auth-tab{flex:1;padding:10px;background:none;border:none;font-size:.9rem;color:var(--gray);font-weight:500;border-bottom:2px solid transparent;margin-bottom:-2px;transition:.2s;}
+.auth-tab.active{color:var(--navy);border-bottom-color:var(--gold);}
+.form-group{margin-bottom:18px;}
+.form-group label{display:block;font-size:.82rem;font-weight:600;color:var(--navy);margin-bottom:6px;}
+.form-group input,.form-group select{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:.9rem;color:var(--navy);outline:none;transition:.2s;}
+.form-group input:focus,.form-group select:focus{border-color:var(--gold);}
+.role-selector{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+.role-btn{padding:10px 6px;border:1.5px solid var(--border);border-radius:8px;background:var(--white);font-size:.82rem;font-weight:500;color:var(--gray);transition:.2s;text-align:center;}
+.role-btn.active{border-color:var(--gold);background:#fff8e1;color:var(--navy);}
+.auth-submit{width:100%;background:linear-gradient(135deg,var(--navy),var(--navy3));color:var(--white);padding:13px;border:none;border-radius:8px;font-size:.95rem;font-weight:600;transition:.2s;margin-top:4px;}
+.auth-submit:hover{opacity:.9;}
+.auth-msg{font-size:.82rem;text-align:center;margin-top:12px;padding:8px;border-radius:6px;}
+.auth-msg.error{background:#ffebee;color:var(--red);}
+.auth-msg.success{background:#e8f5e9;color:var(--green);}
+
+/* ===== DASHBOARD SHELL ===== */
+#dashboard{display:none;}
+.dash-layout{display:flex;min-height:100vh;}
+.sidebar{width:260px;min-height:100vh;background:var(--navy);display:flex;flex-direction:column;position:fixed;top:0;left:0;z-index:50;transition:.3s;}
+.sidebar-header{padding:20px 20px 16px;border-bottom:1px solid rgba(255,255,255,.08);}
+.sidebar-brand{display:flex;align-items:center;gap:10px;}
+.sidebar-brand .s-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.sidebar-brand-text h3{color:var(--white);font-size:.9rem;font-family:'Playfair Display',serif;line-height:1.2;}
+.sidebar-brand-text p{color:#9ca3af;font-size:.68rem;}
+.sidebar-user{padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.08);}
+.s-user-info{display:flex;align-items:center;gap:10px;}
+.s-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--navy);font-size:.9rem;flex-shrink:0;}
+.s-user-name{color:var(--white);font-size:.88rem;font-weight:600;}
+.s-user-role{color:var(--gold);font-size:.7rem;text-transform:uppercase;letter-spacing:.5px;}
+.sidebar-nav{flex:1;padding:16px 0;overflow-y:auto;}
+.nav-section-label{padding:8px 20px 4px;color:#6b7280;font-size:.68rem;text-transform:uppercase;letter-spacing:1px;}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 20px;color:#9ca3af;font-size:.88rem;cursor:pointer;transition:.2s;border-left:3px solid transparent;}
+.nav-item:hover{color:var(--white);background:rgba(255,255,255,.05);}
+.nav-item.active{color:var(--white);background:rgba(201,168,76,.12);border-left-color:var(--gold);}
+.nav-item .n-icon{font-size:1rem;width:20px;text-align:center;}
+.sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.08);}
+.logout-btn{width:100%;background:rgba(229,57,53,.12);border:1px solid rgba(229,57,53,.25);color:#ef5350;padding:10px;border-radius:8px;font-size:.85rem;font-weight:600;transition:.2s;}
+.logout-btn:hover{background:rgba(229,57,53,.2);}
+
+.main-content{margin-left:260px;flex:1;min-height:100vh;background:var(--cream);}
+.topbar{background:var(--white);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:40;box-shadow:var(--shadow2);}
+.topbar-title h2{font-size:1.25rem;color:var(--navy);}
+.topbar-title p{color:var(--gray);font-size:.8rem;}
+.topbar-right{display:flex;align-items:center;gap:16px;}
+.notif-btn{position:relative;background:var(--lightgray);border:none;width:38px;height:38px;border-radius:8px;font-size:1rem;display:flex;align-items:center;justify-content:center;}
+.notif-badge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:var(--red);border-radius:50%;font-size:.6rem;color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;}
+.menu-toggle{display:none;background:none;border:none;font-size:1.4rem;color:var(--navy);}
+.page-content{padding:28px;}
+
+/* ===== DASHBOARD CARDS ===== */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:28px;}
+.stat-widget{background:var(--white);border-radius:14px;padding:24px 20px;box-shadow:var(--shadow2);border:1px solid var(--border);display:flex;align-items:center;gap:16px;}
+.stat-widget .sw-icon{width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
+.sw-icon.navy{background:#e8edf5;}
+.sw-icon.gold{background:#fff8e1;}
+.sw-icon.green{background:#e8f5e9;}
+.sw-icon.red{background:#ffebee;}
+.sw-icon.blue{background:#e3f2fd;}
+.stat-widget .sw-val{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--navy);line-height:1;}
+.stat-widget .sw-label{color:var(--gray);font-size:.8rem;margin-top:4px;}
+.stat-widget .sw-change{font-size:.75rem;color:var(--green);font-weight:500;}
+
+.card{background:var(--white);border-radius:14px;border:1px solid var(--border);box-shadow:var(--shadow2);overflow:hidden;}
+.card-header{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.card-header h3{font-size:1rem;color:var(--navy);}
+.card-body{padding:22px;}
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px;}
+@media(max-width:768px){.card-grid{grid-template-columns:1fr;}}
+
+/* ===== TABLES ===== */
+.table-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;}
+th{background:var(--lightgray);padding:11px 14px;text-align:left;font-size:.8rem;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;}
+td{padding:12px 14px;font-size:.88rem;color:var(--navy);border-bottom:1px solid var(--border);}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#fafafa;}
+
+/* ===== BADGES ===== */
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:.73rem;font-weight:600;}
+.badge.green{background:#e8f5e9;color:var(--green);}
+.badge.red{background:#ffebee;color:var(--red);}
+.badge.gold{background:#fff8e1;color:#b8860b;}
+.badge.blue{background:#e3f2fd;color:var(--blue);}
+.badge.gray{background:var(--lightgray);color:var(--gray);}
+.badge.orange{background:#fff3e0;color:var(--orange);}
+
+/* ===== BUTTONS ===== */
+.btn{padding:9px 20px;border-radius:8px;font-size:.85rem;font-weight:600;border:none;transition:.2s;display:inline-flex;align-items:center;gap:6px;}
+.btn-sm{padding:6px 14px;font-size:.78rem;}
+.btn-navy{background:var(--navy);color:var(--white);}
+.btn-navy:hover{background:var(--navy2);}
+.btn-gold{background:var(--gold);color:var(--navy);}
+.btn-gold:hover{background:var(--gold2);}
+.btn-red{background:var(--red);color:var(--white);}
+.btn-red:hover{opacity:.9;}
+.btn-green{background:var(--green);color:var(--white);}
+.btn-green:hover{opacity:.9;}
+.btn-outline{background:transparent;border:1.5px solid var(--border);color:var(--navy);}
+.btn-outline:hover{border-color:var(--navy);}
+.btn-blue{background:var(--blue);color:var(--white);}
+
+/* ===== FORMS ===== */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:600px){.form-row{grid-template-columns:1fr;}}
+.form-control{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:.88rem;color:var(--navy);outline:none;transition:.2s;background:var(--white);}
+.form-control:focus{border-color:var(--gold);}
+textarea.form-control{resize:vertical;min-height:100px;}
+.form-label{display:block;font-size:.8rem;font-weight:600;color:var(--navy);margin-bottom:6px;}
+.form-section{margin-bottom:20px;}
+
+/* ===== SECTION PAGES ===== */
+.section-page{display:none;}
+.section-page.active{display:block;}
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
+.page-header h2{font-size:1.5rem;color:var(--navy);}
+.page-header p{color:var(--gray);font-size:.85rem;}
+
+/* ===== EXAM/QUIZ ===== */
+.exam-container{max-width:800px;margin:0 auto;}
+.exam-header-bar{background:var(--navy);color:var(--white);padding:16px 24px;border-radius:12px 12px 0 0;display:flex;justify-content:space-between;align-items:center;}
+.exam-timer{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--gold);}
+.exam-body{background:var(--white);border:1px solid var(--border);padding:28px;border-radius:0 0 12px 12px;}
+.question-block{margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid var(--border);}
+.question-block:last-child{border-bottom:none;}
+.q-num{font-size:.75rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.q-text{font-weight:600;color:var(--navy);margin-bottom:14px;line-height:1.6;}
+.q-options{display:flex;flex-direction:column;gap:10px;}
+.q-option{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;transition:.2s;}
+.q-option:hover{border-color:var(--gold);background:#fff8e1;}
+.q-option.selected{border-color:var(--gold);background:#fff8e1;}
+.q-option.correct{border-color:var(--green);background:#e8f5e9;}
+.q-option.wrong{border-color:var(--red);background:#ffebee;}
+.q-option input[type=radio]{accent-color:var(--gold);}
+.theory-answer{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:.88rem;resize:vertical;min-height:80px;outline:none;transition:.2s;}
+.theory-answer:focus{border-color:var(--gold);}
+
+/* ===== ANNOUNCEMENT / NOTIF ===== */
+.announce-item{padding:16px;border:1px solid var(--border);border-radius:10px;background:var(--white);margin-bottom:12px;border-left:4px solid var(--gold);}
+.announce-item.urgent{border-left-color:var(--red);}
+.announce-item.info{border-left-color:var(--blue);}
+.announce-title{font-weight:600;font-size:.95rem;color:var(--navy);margin-bottom:4px;}
+.announce-body{color:var(--gray);font-size:.85rem;line-height:1.55;}
+.announce-meta{display:flex;align-items:center;gap:12px;margin-top:8px;font-size:.75rem;color:#9ca3af;}
+
+/* ===== TIMETABLE ===== */
+.timetable-grid{overflow-x:auto;}
+.timetable-grid table{min-width:700px;}
+.tt-cell{text-align:center;font-size:.8rem;}
+.tt-subject{font-weight:600;color:var(--navy);font-size:.82rem;}
+.tt-teacher{color:var(--gray);font-size:.73rem;}
+.tt-period{background:var(--lightgray);color:var(--navy);font-size:.78rem;font-weight:600;padding:6px 10px;}
+
+/* ===== MODAL ===== */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,22,40,.7);z-index:200;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.active{display:flex;}
+.modal-box{background:var(--white);border-radius:16px;padding:32px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;position:relative;}
+.modal-box.wide{max-width:720px;}
+.modal-close{position:absolute;top:16px;right:20px;background:none;border:none;font-size:1.3rem;color:var(--gray);}
+.modal-title{font-size:1.2rem;color:var(--navy);margin-bottom:20px;}
+
+/* ===== FEES / PAYMENT ===== */
+.fee-card{background:linear-gradient(135deg,var(--navy),var(--navy3));border-radius:16px;padding:28px;color:var(--white);margin-bottom:20px;}
+.fee-card h3{font-size:1.4rem;margin-bottom:4px;}
+.fee-card .fee-amount{font-family:'Playfair Display',serif;font-size:2.5rem;color:var(--gold2);}
+.fee-card .fee-status{display:inline-flex;align-items:center;gap:6px;padding:4px 14px;border-radius:20px;font-size:.8rem;font-weight:600;margin-top:12px;}
+.fee-card .fee-status.paid{background:rgba(46,125,50,.25);color:#69f0ae;}
+.fee-card .fee-status.unpaid{background:rgba(229,57,53,.25);color:#ff8a80;}
+.pay-methods{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;}
+.pay-method{border:2px solid var(--border);border-radius:12px;padding:20px;cursor:pointer;transition:.2s;text-align:center;}
+.pay-method:hover,.pay-method.active{border-color:var(--gold);background:#fff8e1;}
+.pay-method .pm-icon{font-size:2rem;margin-bottom:8px;}
+.pay-method h4{font-size:.9rem;color:var(--navy);font-weight:600;}
+.pay-method p{color:var(--gray);font-size:.78rem;margin-top:4px;}
+.bank-details{background:var(--lightgray);border-radius:10px;padding:18px;margin-top:16px;}
+.bank-detail-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:.88rem;}
+.bank-detail-row:last-child{border-bottom:none;}
+.bank-detail-row .label{color:var(--gray);}
+.bank-detail-row .value{font-weight:600;color:var(--navy);}
+
+/* ===== RESULT ===== */
+.result-card{background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:20px;}
+.result-header{background:var(--navy);padding:20px 24px;color:var(--white);}
+.result-header h3{font-size:1.2rem;}
+.result-header p{color:#9ca3af;font-size:.82rem;margin-top:4px;}
+.result-body{padding:0;}
+.result-score{text-align:center;padding:24px;}
+.result-score .big{font-family:'Playfair Display',serif;font-size:4rem;color:var(--navy);}
+.result-score .grade-badge{display:inline-block;padding:6px 24px;border-radius:30px;font-weight:700;font-size:1.1rem;margin-top:8px;}
+.grade-A{background:#e8f5e9;color:var(--green);}
+.grade-B{background:#e3f2fd;color:var(--blue);}
+.grade-C{background:#fff8e1;color:#b8860b;}
+.grade-F{background:#ffebee;color:var(--red);}
+
+/* ===== LOADING ===== */
+.spinner{display:inline-block;width:24px;height:24px;border:3px solid rgba(201,168,76,.3);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-overlay{position:fixed;inset:0;background:var(--navy);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;}
+.loading-overlay h3{color:var(--white);font-size:1.1rem;}
+
+/* ===== TOAST ===== */
+#toast-container{position:fixed;bottom:24px;right:24px;z-index:9000;display:flex;flex-direction:column;gap:10px;}
+.toast{background:var(--navy);color:var(--white);padding:14px 20px;border-radius:10px;font-size:.88rem;box-shadow:var(--shadow);display:flex;align-items:center;gap:10px;max-width:340px;animation:slideIn .3s ease;}
+.toast.success{border-left:4px solid var(--green);}
+.toast.error{border-left:4px solid var(--red);}
+.toast.info{border-left:4px solid var(--gold);}
+@keyframes slideIn{from{opacity:0;transform:translateX(40px);}to{opacity:1;transform:translateX(0);}}
+
+/* ===== PROFILE ===== */
+.profile-header{background:linear-gradient(135deg,var(--navy),var(--navy3));border-radius:16px;padding:32px;color:var(--white);display:flex;align-items:center;gap:24px;margin-bottom:24px;flex-wrap:wrap;}
+.profile-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700;color:var(--navy);flex-shrink:0;}
+.profile-info h2{font-size:1.5rem;}
+.profile-info p{color:#9ca3af;font-size:.88rem;margin-top:4px;}
+.profile-info .p-badges{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px){
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);}
+  .main-content{margin-left:0;}
+  .menu-toggle{display:flex;}
+  .stats-row{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:600px){
+  .stats-row{grid-template-columns:1fr;}
+  .page-content{padding:16px;}
+  .portal-cards{flex-direction:column;align-items:center;}
+  .features-grid{grid-template-columns:1fr;}
+  .pay-methods{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .land-stats{grid-template-columns:1fr 1fr;}
+}
+
+/* UTILITY */
+.mt-4{margin-top:1rem;}.mt-6{margin-top:1.5rem;}.mt-8{margin-top:2rem;}
+.mb-4{margin-bottom:1rem;}.mb-6{margin-bottom:1.5rem;}
+.text-center{text-align:center;}
+.text-sm{font-size:.82rem;}
+.text-gray{color:var(--gray);}
+.text-gold{color:var(--gold);}
+.text-navy{color:var(--navy);}
+.text-green{color:var(--green);}
+.text-red{color:var(--red);}
+.font-bold{font-weight:700;}
+.w-full{width:100%;}
+.divider{border:none;border-top:1px solid var(--border);margin:20px 0;}
+.empty-state{text-align:center;padding:48px 20px;color:var(--gray);}
+.empty-state .e-icon{font-size:3rem;margin-bottom:12px;}
+.overlay-sidebar{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:49;}
+.overlay-sidebar.active{display:block;}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div class="loading-overlay" id="loading-overlay">
+  <div class="spinner" style="width:40px;height:40px;border-width:4px;"></div>
+  <h3>Loading Blessed Secondary School...</h3>
+</div>
+
+<!-- TOAST -->
+<div id="toast-container"></div>
+
+<!-- SIDEBAR OVERLAY -->
+<div class="overlay-sidebar" id="overlay-sidebar" onclick="closeSidebar()"></div>
+
+<!-- ===================== LANDING PAGE ===================== -->
+<div id="page-landing">
+  <nav class="land-nav">
+    <div class="land-brand">
+      <div class="land-brand-icon">🏫</div>
+      <div class="land-brand-text">
+        <h2>Blessed Secondary School</h2>
+        <p>Lusada, Ogun State, Nigeria</p>
+      </div>
+    </div>
+    <div class="land-nav-links">
+      <button class="btn-login" onclick="openAuth('student')">Student Login</button>
+      <button class="btn-login" onclick="openAuth('teacher')" style="margin-left:8px;">Staff Login</button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">📚 Excellence in Education</div>
+      <h1>Welcome to <span>Blessed</span><br>Secondary School</h1>
+      <p>A modern school management platform for students, teachers, and administrators. Access your portal, manage academics, pay fees, and stay connected — all in one place.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="openAuth('student')">🎓 Student Portal</button>
+        <button class="btn-secondary" onclick="openAuth('teacher')">👩‍🏫 Staff Portal</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="land-stats">
+    <div class="stat-card"><div class="stat-num">500+</div><div class="stat-label">Enrolled Students</div></div>
+    <div class="stat-card"><div class="stat-num">30+</div><div class="stat-label">Qualified Teachers</div></div>
+    <div class="stat-card"><div class="stat-num">20+</div><div class="stat-label">Subjects Offered</div></div>
+    <div class="stat-card"><div class="stat-num">100%</div><div class="stat-label">Online Management</div></div>
+  </div>
+
+  <div class="features-section">
+    <div class="section-title">
+      <h2>Everything Your School Needs</h2>
+      <p>A complete school management system built for Nigerian secondary schools</p>
+    </div>
+    <div class="features-grid">
+      <div class="feat-card">
+        <div class="feat-icon blue">📖</div>
+        <h3>Academic Management</h3>
+        <p>Manage timetables, assignments, exams, results, and grading all in one integrated platform.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon gold">💳</div>
+        <h3>Online Fee Payment</h3>
+        <p>Pay school fees securely online via Paystack or bank transfer. Get automatic receipts instantly.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon green">📊</div>
+        <h3>Result & Grading System</h3>
+        <p>Auto-calculated results with CA scores, exam scores, grade reports, and term summaries.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon red">🔔</div>
+        <h3>Announcements & Alerts</h3>
+        <p>School-wide notices, assignment reminders, exam alerts, and payment confirmations in real time.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon blue">📝</div>
+        <h3>Online Exams & Assignments</h3>
+        <p>Timed online exams with auto-marking for objectives and manual marking for theory questions.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon gold">🔐</div>
+        <h3>Secure Role-Based Access</h3>
+        <p>Separate portals for Admin, Teachers, and Students with Firebase-secured access control.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="portal-section">
+    <h2>Choose Your Portal</h2>
+    <p>Secure access for every member of the school community</p>
+    <div class="portal-cards">
+      <div class="portal-card" onclick="openAuth('student')">
+        <div class="p-icon">🎓</div>
+        <h3>Student Portal</h3>
+        <p>Access classes, assignments, exams, results and pay your fees</p>
+        <div class="p-btn">Login →</div>
+      </div>
+      <div class="portal-card" onclick="openAuth('teacher')">
+        <div class="p-icon">👩‍🏫</div>
+        <h3>Teacher Portal</h3>
+        <p>Manage classes, upload assignments, mark exams and publish results</p>
+        <div class="p-btn">Login →</div>
+      </div>
+      <div class="portal-card" onclick="openAuth('admin')">
+        <div class="p-icon">🛡️</div>
+        <h3>Admin Portal</h3>
+        <p>Full school management, fees, users, results and system control</p>
+        <div class="p-btn">Login →</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="land-footer">
+    <p>📍 Lusada, Ogun State, Nigeria &nbsp;|&nbsp; 📞 <a href="tel:07080951392">07080951392</a> &nbsp;|&nbsp; 💬 <a href="https://wa.me/2347080951392" target="_blank">WhatsApp</a></p>
+    <p style="margin-top:10px;font-size:.75rem;">© 2025 Blessed Secondary School. All rights reserved.</p>
+  </div>
+</div>
+
+<!-- ===================== AUTH MODAL ===================== -->
+<div id="auth-modal">
+  <div class="auth-box">
+    <button class="auth-close" onclick="closeAuth()">✕</button>
+    <div class="auth-logo">
+      <div class="a-icon">🏫</div>
+      <h2>Blessed Secondary School</h2>
+      <p>Sign in to your portal</p>
+    </div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchAuthTab('login')">Login</button>
+      <button class="auth-tab" onclick="switchAuthTab('register')">Register</button>
+    </div>
+
+    <!-- Login -->
+    <div id="auth-login">
+      <div style="margin-bottom:16px;">
+        <p class="form-label">Select Role</p>
+        <div class="role-selector">
+          <button class="role-btn" onclick="setRole('student',this)">🎓 Student</button>
+          <button class="role-btn" onclick="setRole('teacher',this)">👩‍🏫 Teacher</button>
+          <button class="role-btn" onclick="setRole('admin',this)">🛡️ Admin</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="login-email" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="login-pass" placeholder="••••••••">
+      </div>
+      <button class="auth-submit" onclick="doLogin()">Sign In</button>
+      <div id="auth-login-msg"></div>
+    </div>
+
+    <!-- Register -->
+    <div id="auth-register" class="hide">
+      <div style="margin-bottom:16px;">
+        <p class="form-label">Register As</p>
+        <div class="role-selector">
+          <button class="role-btn" onclick="setRegRole('student',this)">🎓 Student</button>
+          <button class="role-btn" onclick="setRegRole('teacher',this)">👩‍🏫 Teacher</button>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" id="reg-fname" placeholder="First name">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" id="reg-lname" placeholder="Last name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="reg-email" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" id="reg-phone" placeholder="08012345678">
+      </div>
+      <div id="reg-student-fields">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Class</label>
+            <select id="reg-class">
+              <option value="">Select class</option>
+              <option>JSS 1</option><option>JSS 2</option><option>JSS 3</option>
+              <option>SS 1</option><option>SS 2</option><option>SS 3</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Admission Number</label>
+            <input type="text" id="reg-admno" placeholder="BSS/2024/001">
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="reg-pass" placeholder="Create password (min 6 chars)">
+      </div>
+      <button class="auth-submit" onclick="doRegister()">Create Account</button>
+      <div id="auth-reg-msg"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== DASHBOARD ===================== -->
+<div id="dashboard">
+  <div class="dash-layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand">
+          <div class="s-icon">🏫</div>
+          <div class="sidebar-brand-text">
+            <h3>Blessed SS</h3>
+            <p>School Portal</p>
+          </div>
+        </div>
+      </div>
+      <div class="sidebar-user">
+        <div class="s-user-info">
+          <div class="s-avatar" id="s-avatar">U</div>
+          <div>
+            <div class="s-user-name" id="s-user-name">Loading...</div>
+            <div class="s-user-role" id="s-user-role">—</div>
+          </div>
+        </div>
+      </div>
+      <div class="sidebar-nav" id="sidebar-nav"></div>
+      <div class="sidebar-footer">
+        <button class="logout-btn" onclick="doLogout()">🚪 Sign Out</button>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main-content">
+      <div class="topbar">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+          <div class="topbar-title">
+            <h2 id="topbar-title">Dashboard</h2>
+            <p id="topbar-sub">Welcome back</p>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="notif-btn" onclick="showSection('notifications')">
+            🔔<span class="notif-badge" id="notif-count">0</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="page-content">
+        <!-- ===== STUDENT SECTIONS ===== -->
+        <div id="sec-student-dashboard" class="section-page">
+          <div class="stats-row" id="student-stats-row"></div>
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-header"><h3>📢 Recent Announcements</h3></div>
+              <div class="card-body" id="student-announce-list"><div class="empty-state"><div class="e-icon">📭</div><p>No announcements</p></div></div>
+            </div>
+            <div class="card">
+              <div class="card-header"><h3>📋 Upcoming Tasks</h3></div>
+              <div class="card-body" id="student-tasks-list"><div class="empty-state"><div class="e-icon">✅</div><p>No pending tasks</p></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="sec-timetable" class="section-page">
+          <div class="page-header"><div><h2>My Timetable</h2><p>Weekly class schedule</p></div></div>
+          <div class="card"><div class="card-body timetable-grid" id="timetable-content"></div></div>
+        </div>
+
+        <div id="sec-assignments" class="section-page">
+          <div class="page-header">
+            <div><h2>Assignments</h2><p>View and submit your assignments</p></div>
+          </div>
+          <div id="assignments-list"></div>
+        </div>
+
+        <div id="sec-exams" class="section-page">
+          <div class="page-header"><div><h2>Exams & Tests</h2><p>Online timed examinations</p></div></div>
+          <div id="exams-list"></div>
+        </div>
+
+        <div id="sec-results" class="section-page">
+          <div class="page-header"><div><h2>My Results</h2><p>Academic performance summary</p></div></div>
+          <div id="results-content"></div>
+        </div>
+
+        <div id="sec-fees" class="section-page">
+          <div class="page-header"><div><h2>School Fees</h2><p>Payment status and history</p></div></div>
+          <div id="fees-content"></div>
+        </div>
+
+        <!-- ===== TEACHER SECTIONS ===== -->
+        <div id="sec-teacher-dashboard" class="section-page">
+          <div class="stats-row" id="teacher-stats-row"></div>
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-header"><h3>📢 Announcements</h3></div>
+              <div class="card-body" id="teacher-announce-list"></div>
+            </div>
+            <div class="card">
+              <div class="card-header"><h3>🗓️ Recent Activity</h3></div>
+              <div class="card-body" id="teacher-activity"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="sec-create-assignment" class="section-page">
+          <div class="page-header"><div><h2>Create Assignment</h2><p>Upload new assignments for students</p></div></div>
+          <div class="card"><div class="card-body" id="create-assignment-form"></div></div>
+        </div>
+
+        <div id="sec-create-exam" class="section-page">
+          <div class="page-header"><div><h2>Create Exam / Test</h2><p>Set questions for online exams</p></div></div>
+          <div class="card"><div class="card-body" id="create-exam-form"></div></div>
+        </div>
+
+        <div id="sec-grade-students" class="section-page">
+          <div class="page-header"><div><h2>Grade Students</h2><p>Mark submissions and publish results</p></div></div>
+          <div id="grade-content"></div>
+        </div>
+
+        <div id="sec-my-classes" class="section-page">
+          <div class="page-header"><div><h2>My Classes</h2><p>Classes and subjects you manage</p></div></div>
+          <div id="my-classes-content"></div>
+        </div>
+
+        <!-- ===== ADMIN SECTIONS ===== -->
+        <div id="sec-admin-dashboard" class="section-page">
+          <div class="stats-row" id="admin-stats-row"></div>
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-header"><h3>📢 System Announcements</h3><button class="btn btn-sm btn-gold" onclick="openAddAnnouncement()">+ Add</button></div>
+              <div class="card-body" id="admin-announce-list"></div>
+            </div>
+            <div class="card">
+              <div class="card-header"><h3>🔔 Recent Activity</h3></div>
+              <div class="card-body" id="admin-activity"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="sec-manage-students" class="section-page">
+          <div class="page-header">
+            <div><h2>Manage Students</h2><p>Add, edit and remove student accounts</p></div>
+            <button class="btn btn-gold" onclick="openAddUser('student')">+ Add Student</button>
+          </div>
+          <div class="card"><div class="card-body"><div class="table-wrap"><table id="students-table"><thead><tr><th>Name</th><th>Admission No</th><th>Class</th><th>Email</th><th>Fees Status</th><th>Actions</th></tr></thead><tbody id="students-tbody"></tbody></table></div></div></div>
+        </div>
+
+        <div id="sec-manage-teachers" class="section-page">
+          <div class="page-header">
+            <div><h2>Manage Teachers</h2><p>Add, edit and remove teacher accounts</p></div>
+            <button class="btn btn-gold" onclick="openAddUser('teacher')">+ Add Teacher</button>
+          </div>
+          <div class="card"><div class="card-body"><div class="table-wrap"><table id="teachers-table"><thead><tr><th>Name</th><th>Email</th><th>Subjects</th><th>Classes</th><th>Actions</th></tr></thead><tbody id="teachers-tbody"></tbody></table></div></div></div>
+        </div>
+
+        <div id="sec-manage-classes" class="section-page">
+          <div class="page-header">
+            <div><h2>Classes & Subjects</h2><p>Manage class timetables and subject assignments</p></div>
+            <button class="btn btn-gold" onclick="openManageTimetable()">⚙️ Edit Timetable</button>
+          </div>
+          <div id="classes-content"></div>
+        </div>
+
+        <div id="sec-admin-fees" class="section-page">
+          <div class="page-header">
+            <div><h2>Fee Management</h2><p>Payment records and invoices</p></div>
+            <button class="btn btn-gold" onclick="openAddPayment()">+ Record Payment</button>
+          </div>
+          <div class="stats-row">
+            <div class="stat-widget"><div class="sw-icon green">💰</div><div><div class="sw-val" id="admin-fee-collected">₦0</div><div class="sw-label">Total Collected</div></div></div>
+            <div class="stat-widget"><div class="sw-icon red">⏳</div><div><div class="sw-val" id="admin-fee-pending">0</div><div class="sw-label">Pending Payments</div></div></div>
+          </div>
+          <div class="card"><div class="card-body"><div class="table-wrap"><table><thead><tr><th>Student</th><th>Class</th><th>Amount</th><th>Type</th><th>Date</th><th>Method</th><th>Status</th><th>Receipt</th></tr></thead><tbody id="fees-tbody"></tbody></table></div></div></div>
+        </div>
+
+        <div id="sec-admin-results" class="section-page">
+          <div class="page-header"><div><h2>Results Management</h2><p>Approve and publish student results</p></div></div>
+          <div class="card"><div class="card-body"><div class="table-wrap"><table><thead><tr><th>Student</th><th>Class</th><th>Subject</th><th>CA</th><th>Exam</th><th>Total</th><th>Grade</th><th>Status</th><th>Action</th></tr></thead><tbody id="admin-results-tbody"></tbody></table></div></div></div>
+        </div>
+
+        <div id="sec-admin-submissions" class="section-page">
+          <div class="page-header"><div><h2>Student Submissions</h2><p>View all assignment and exam submissions</p></div></div>
+          <div class="card"><div class="card-body"><div class="table-wrap"><table><thead><tr><th>Student</th><th>Assignment</th><th>Subject</th><th>Submitted</th><th>Status</th><th>Score</th><th>Action</th></tr></thead><tbody id="submissions-tbody"></tbody></table></div></div></div>
+        </div>
+
+        <!-- ===== SHARED SECTIONS ===== -->
+        <div id="sec-notifications" class="section-page">
+          <div class="page-header"><div><h2>Notifications</h2><p>System alerts and messages</p></div><button class="btn btn-outline btn-sm" onclick="markAllRead()">Mark All Read</button></div>
+          <div id="notif-list"></div>
+        </div>
+
+        <div id="sec-profile" class="section-page">
+          <div class="profile-header">
+            <div class="profile-avatar" id="profile-avatar">U</div>
+            <div class="profile-info">
+              <h2 id="profile-name">User</h2>
+              <p id="profile-email">email@school.com</p>
+              <div class="p-badges" id="profile-badges"></div>
+            </div>
+          </div>
+          <div class="card-grid">
+            <div class="card"><div class="card-header"><h3>📋 Personal Information</h3></div><div class="card-body" id="profile-info-section"></div></div>
+            <div class="card"><div class="card-header"><h3>🔐 Change Password</h3></div>
+              <div class="card-body">
+                <div class="form-section"><label class="form-label">Current Password</label><input type="password" class="form-control" id="cp-current" placeholder="Current password"></div>
+                <div class="form-section"><label class="form-label">New Password</label><input type="password" class="form-control" id="cp-new" placeholder="New password"></div>
+                <div class="form-section"><label class="form-label">Confirm Password</label><input type="password" class="form-control" id="cp-confirm" placeholder="Confirm new password"></div>
+                <button class="btn btn-navy w-full" onclick="changePassword()">Update Password</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EXAM TAKING VIEW -->
+        <div id="sec-take-exam" class="section-page">
+          <div class="exam-container" id="exam-container"></div>
+        </div>
+
+      </div><!-- /page-content -->
+    </div><!-- /main-content -->
+  </div>
+</div><!-- /dashboard -->
+
+<!-- ===================== MODALS ===================== -->
+<!-- Add User Modal -->
+<div class="modal-overlay" id="modal-add-user">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-add-user')">✕</button>
+    <h3 class="modal-title" id="add-user-title">Add Student</h3>
+    <div id="add-user-form"></div>
+    <button class="btn btn-navy w-full mt-4" onclick="saveUser()">Save Account</button>
+  </div>
+</div>
+
+<!-- Add Announcement Modal -->
+<div class="modal-overlay" id="modal-announcement">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-announcement')">✕</button>
+    <h3 class="modal-title">New Announcement</h3>
+    <div class="form-section"><label class="form-label">Title</label><input type="text" class="form-control" id="ann-title" placeholder="Announcement title"></div>
+    <div class="form-section"><label class="form-label">Message</label><textarea class="form-control" id="ann-body" placeholder="Write announcement..." rows="4"></textarea></div>
+    <div class="form-section"><label class="form-label">Priority</label><select class="form-control" id="ann-priority"><option value="normal">Normal</option><option value="urgent">Urgent</option><option value="info">Info</option></select></div>
+    <div class="form-section"><label class="form-label">Target Audience</label><select class="form-control" id="ann-target"><option value="all">Everyone</option><option value="student">Students Only</option><option value="teacher">Teachers Only</option></select></div>
+    <button class="btn btn-navy w-full mt-4" onclick="saveAnnouncement()">Publish Announcement</button>
+  </div>
+</div>
+
+<!-- Payment Modal -->
+<div class="modal-overlay" id="modal-payment">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-payment')">✕</button>
+    <h3 class="modal-title">Pay School Fees</h3>
+    <div id="payment-modal-content"></div>
+  </div>
+</div>
+
+<!-- Receipt Modal -->
+<div class="modal-overlay" id="modal-receipt">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-receipt')">✕</button>
+    <div id="receipt-content"></div>
+    <button class="btn btn-navy w-full mt-4" onclick="window.print()">🖨️ Print Receipt</button>
+  </div>
+</div>
+
+<!-- Submission Modal -->
+<div class="modal-overlay" id="modal-submit-assignment">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-submit-assignment')">✕</button>
+    <h3 class="modal-title">Submit Assignment</h3>
+    <div id="submit-assignment-content"></div>
+  </div>
+</div>
+
+<!-- Grade Modal -->
+<div class="modal-overlay" id="modal-grade">
+  <div class="modal-box wide">
+    <button class="modal-close" onclick="closeModal('modal-grade')">✕</button>
+    <h3 class="modal-title">Grade Submission</h3>
+    <div id="grade-modal-content"></div>
+  </div>
+</div>
+
+<!-- Admin Record Payment Modal -->
+<div class="modal-overlay" id="modal-admin-payment">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-admin-payment')">✕</button>
+    <h3 class="modal-title">Record Payment</h3>
+    <div class="form-section"><label class="form-label">Student (Admission No or Email)</label><input type="text" class="form-control" id="adm-pay-student" placeholder="Search student..."></div>
+    <div class="form-row">
+      <div class="form-section"><label class="form-label">Amount (₦)</label><input type="number" class="form-control" id="adm-pay-amount" placeholder="120000"></div>
+      <div class="form-section"><label class="form-label">Payment Type</label><select class="form-control" id="adm-pay-type"><option>School Fees</option><option>Hostel Fees</option><option>Development Levy</option><option>Other</option></select></div>
+    </div>
+    <div class="form-section"><label class="form-label">Payment Method</label><select class="form-control" id="adm-pay-method"><option>Bank Transfer</option><option>Paystack</option><option>Cash</option></select></div>
+    <div class="form-section"><label class="form-label">Reference</label><input type="text" class="form-control" id="adm-pay-ref" placeholder="Payment reference"></div>
+    <button class="btn btn-navy w-full mt-4" onclick="saveAdminPayment()">Record Payment</button>
+  </div>
+</div>
+
+<!-- Timetable Modal -->
+<div class="modal-overlay" id="modal-timetable">
+  <div class="modal-box wide">
+    <button class="modal-close" onclick="closeModal('modal-timetable')">✕</button>
+    <h3 class="modal-title">Edit Timetable</h3>
+    <div id="timetable-edit-form"></div>
+    <button class="btn btn-navy w-full mt-4" onclick="saveTimetable()">Save Timetable</button>
+  </div>
+</div>
+
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, updateDoc, deleteDoc, query, where, orderBy, serverTimestamp, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAYXG-6gFJ_QMZT__7A32Kogx4uVBMR1hc",
+  authDomain: "eduportal-dc55b.firebaseapp.com",
+  databaseURL: "https://eduportal-dc55b-default-rtdb.firebaseio.com",
+  projectId: "eduportal-dc55b",
+  storageBucket: "eduportal-dc55b.firebasestorage.app",
+  messagingSenderId: "168703430994",
+  appId: "1:168703430994:web:bad5baccd088d6ea9faa8b"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// ============================================================
+// GLOBALS
+// ============================================================
+let currentUser = null;
+let currentUserData = null;
+let selectedRole = 'student';
+let selectedRegRole = 'student';
+let addingUserType = 'student';
+let currentExam = null;
+let examTimer = null;
+let examAnswers = {};
+let currentSubmissionId = null;
+
+const PAYSTACK_KEY = 'pk_test_28a11f626c0b53bd1307cb18e42d21929c88b0b0';
+const BANK = { name:'Blessed Secondary School', bank:'Access Bank', acct:'8150898386' };
+const FEES = { JSS:120000, SS:200000, HOSTEL:50000 };
+const SUBJECTS = ['Mathematics','English Language','Biology','Chemistry','Physics','Economics','Government','Literature','Agricultural Science','Computer Science','Geography','Civic Education','Further Mathematics','French','Yoruba','History','Basic Science','Basic Technology','Social Studies','Christian Religious Studies','Islamic Religious Studies'];
+const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday'];
+const PERIODS = ['8:00-8:40','8:40-9:20','9:20-10:00','10:20-11:00','11:00-11:40','11:40-12:20','1:20-2:00','2:00-2:40'];
+const CLASSES = ['JSS 1','JSS 2','JSS 3','SS 1','SS 2','SS 3'];
+
+window.showSection = showSection;
+window.openAuth = openAuth;
+window.closeAuth = closeAuth;
+window.switchAuthTab = switchAuthTab;
+window.setRole = setRole;
+window.setRegRole = setRegRole;
+window.doLogin = doLogin;
+window.doRegister = doRegister;
+window.doLogout = doLogout;
+window.toggleSidebar = toggleSidebar;
+window.closeSidebar = closeSidebar;
+window.openAddUser = openAddUser;
+window.saveUser = saveUser;
+window.deleteUser = deleteUser;
+window.openModal = openModal;
+window.closeModal = closeModal;
+window.openAddAnnouncement = openAddAnnouncement;
+window.saveAnnouncement = saveAnnouncement;
+window.deleteAnnouncement = deleteAnnouncement;
+window.openPaymentModal = openPaymentModal;
+window.payWithPaystack = payWithPaystack;
+window.submitManualPayment = submitManualPayment;
+window.openReceipt = openReceipt;
+window.openAddPayment = openAddPayment;
+window.saveAdminPayment = saveAdminPayment;
+window.openSubmitAssignment = openSubmitAssignment;
+window.submitAssignment = submitAssignment;
+window.startExam = startExam;
+window.submitExam = submitExam;
+window.selectOption = selectOption;
+window.openGradeModal = openGradeModal;
+window.saveGrade = saveGrade;
+window.publishResult = publishResult;
+window.openManageTimetable = openManageTimetable;
+window.saveTimetable = saveTimetable;
+window.markAllRead = markAllRead;
+window.changePassword = changePassword;
+
+// ============================================================
+// AUTH STATE
+// ============================================================
+onAuthStateChanged(auth, async (user) => {
+  const loader = document.getElementById('loading-overlay');
+  loader.style.display = 'none';
+  if (user) {
+    currentUser = user;
+    const snap = await getDoc(doc(db, 'users', user.uid));
+    if (snap.exists()) {
+      currentUserData = snap.data();
+      closeAuth();
+      showDashboard();
+    } else {
+      showLanding();
+    }
+  } else {
+    currentUser = null;
+    currentUserData = null;
+    showLanding();
+  }
+});
+
+// ============================================================
+// PAGE NAVIGATION
+// ============================================================
+function showLanding() {
+  document.getElementById('page-landing').style.display = 'block';
+  document.getElementById('dashboard').style.display = 'none';
+}
+
+function showDashboard() {
+  document.getElementById('page-landing').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  initDashboard();
+}
+
+function showSection(name) {
+  document.querySelectorAll('.section-page').forEach(s => s.classList.remove('active'));
+  const sec = document.getElementById('sec-' + name);
+  if (sec) sec.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.classList.toggle('active', n.dataset.section === name);
+  });
+  const titles = {
+    'student-dashboard':'Dashboard','teacher-dashboard':'Dashboard','admin-dashboard':'Dashboard',
+    'timetable':'My Timetable','assignments':'Assignments','exams':'Exams & Tests',
+    'results':'My Results','fees':'School Fees','create-assignment':'Create Assignment',
+    'create-exam':'Create Exam','grade-students':'Grade Students','my-classes':'My Classes',
+    'manage-students':'Manage Students','manage-teachers':'Manage Teachers',
+    'manage-classes':'Classes & Subjects','admin-fees':'Fee Management',
+    'admin-results':'Results','admin-submissions':'Submissions',
+    'notifications':'Notifications','profile':'My Profile','take-exam':'Take Exam'
+  };
+  document.getElementById('topbar-title').textContent = titles[name] || 'Dashboard';
+  closeSidebar();
+  loadSectionData(name);
+}
+
+async function loadSectionData(name) {
+  const role = currentUserData?.role;
+  if (name === 'student-dashboard') loadStudentDashboard();
+  else if (name === 'teacher-dashboard') loadTeacherDashboard();
+  else if (name === 'admin-dashboard') loadAdminDashboard();
+  else if (name === 'timetable') loadTimetable();
+  else if (name === 'assignments') loadAssignments();
+  else if (name === 'exams') loadExams();
+  else if (name === 'results') loadResults();
+  else if (name === 'fees') loadFees();
+  else if (name === 'create-assignment') renderCreateAssignmentForm();
+  else if (name === 'create-exam') renderCreateExamForm();
+  else if (name === 'grade-students') loadGradeStudents();
+  else if (name === 'my-classes') loadMyClasses();
+  else if (name === 'manage-students') loadManageStudents();
+  else if (name === 'manage-teachers') loadManageTeachers();
+  else if (name === 'manage-classes') loadManageClasses();
+  else if (name === 'admin-fees') loadAdminFees();
+  else if (name === 'admin-results') loadAdminResults();
+  else if (name === 'admin-submissions') loadAdminSubmissions();
+  else if (name === 'notifications') loadNotifications();
+  else if (name === 'profile') loadProfile();
+}
+
+// ============================================================
+// INIT DASHBOARD
+// ============================================================
+function initDashboard() {
+  const u = currentUserData;
+  const initials = (u.firstName?.[0] || '') + (u.lastName?.[0] || '');
+  document.getElementById('s-avatar').textContent = initials || 'U';
+  document.getElementById('s-user-name').textContent = `${u.firstName||''} ${u.lastName||''}`.trim();
+  document.getElementById('s-user-role').textContent = u.role?.toUpperCase() || '—';
+  document.getElementById('profile-avatar').textContent = initials || 'U';
+  document.getElementById('profile-name').textContent = `${u.firstName||''} ${u.lastName||''}`.trim();
+  document.getElementById('profile-email').textContent = u.email || '';
+  buildSidebar(u.role);
+  loadNotifCount();
+  const defSection = u.role === 'admin' ? 'admin-dashboard' : u.role === 'teacher' ? 'teacher-dashboard' : 'student-dashboard';
+  showSection(defSection);
+}
+
+function buildSidebar(role) {
+  const nav = document.getElementById('sidebar-nav');
+  const menus = {
+    student: [
+      { icon:'🏠', label:'Dashboard', sec:'student-dashboard' },
+      { icon:'📅', label:'Timetable', sec:'timetable' },
+      { icon:'📝', label:'Assignments', sec:'assignments' },
+      { icon:'📋', label:'Exams & Tests', sec:'exams' },
+      { icon:'📊', label:'My Results', sec:'results' },
+      { icon:'💳', label:'School Fees', sec:'fees' },
+      { icon:'🔔', label:'Notifications', sec:'notifications' },
+      { icon:'👤', label:'My Profile', sec:'profile' },
+    ],
+    teacher: [
+      { icon:'🏠', label:'Dashboard', sec:'teacher-dashboard' },
+      { icon:'🏫', label:'My Classes', sec:'my-classes' },
+      { icon:'📝', label:'Create Assignment', sec:'create-assignment' },
+      { icon:'📋', label:'Create Exam/Test', sec:'create-exam' },
+      { icon:'✏️', label:'Grade Students', sec:'grade-students' },
+      { icon:'🔔', label:'Notifications', sec:'notifications' },
+      { icon:'👤', label:'My Profile', sec:'profile' },
+    ],
+    admin: [
+      { icon:'🏠', label:'Dashboard', sec:'admin-dashboard' },
+      { icon:'🎓', label:'Students', sec:'manage-students' },
+      { icon:'👩‍🏫', label:'Teachers', sec:'manage-teachers' },
+      { icon:'🏫', label:'Classes & Subjects', sec:'manage-classes' },
+      { icon:'💳', label:'Fee Management', sec:'admin-fees' },
+      { icon:'📊', label:'Results', sec:'admin-results' },
+      { icon:'📁', label:'Submissions', sec:'admin-submissions' },
+      { icon:'🔔', label:'Notifications', sec:'notifications' },
+      { icon:'👤', label:'My Profile', sec:'profile' },
+    ]
+  };
+  const items = menus[role] || menus.student;
+  nav.innerHTML = items.map(m => `<div class="nav-item" data-section="${m.sec}" onclick="showSection('${m.sec}')">${m.icon}&nbsp;&nbsp;${m.label}</div>`).join('');
+}
+
+// ============================================================
+// AUTH FUNCTIONS
+// ============================================================
+function openAuth(role) {
+  selectedRole = role || 'student';
+  document.getElementById('auth-modal').classList.add('active');
+  switchAuthTab('login');
+  // pre-select role
+  document.querySelectorAll('#auth-login .role-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent.toLowerCase().includes(role));
+  });
+}
+function closeAuth() { document.getElementById('auth-modal').classList.remove('active'); }
+function switchAuthTab(tab) {
+  document.querySelectorAll('.auth-tab').forEach((t,i)=> t.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='register')));
+  document.getElementById('auth-login').classList.toggle('hide', tab !== 'login');
+  document.getElementById('auth-register').classList.toggle('hide', tab !== 'register');
+}
+function setRole(role, btn) {
+  selectedRole = role;
+  document.querySelectorAll('#auth-login .role-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function setRegRole(role, btn) {
+  selectedRegRole = role;
+  document.querySelectorAll('#auth-register .role-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('reg-student-fields').classList.toggle('hide', role !== 'student');
+}
+
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  const msg = document.getElementById('auth-login-msg');
+  if (!email || !pass) { showAuthMsg(msg, 'Please fill all fields', 'error'); return; }
+  try {
+    const cred = await signInWithEmailAndPassword(auth, email, pass);
+    const snap = await getDoc(doc(db, 'users', cred.user.uid));
+    if (!snap.exists()) { showAuthMsg(msg, 'Account not found. Please contact admin.', 'error'); await signOut(auth); return; }
+    const data = snap.data();
+    if (data.role !== selectedRole) { showAuthMsg(msg, `This account is registered as ${data.role}. Please select the correct role.`, 'error'); await signOut(auth); return; }
+    showAuthMsg(msg, 'Login successful! Redirecting...', 'success');
+  } catch(e) {
+    showAuthMsg(msg, getAuthError(e.code), 'error');
+  }
+}
+
+async function doRegister() {
+  const fname = document.getElementById('reg-fname').value.trim();
+  const lname = document.getElementById('reg-lname').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const phone = document.getElementById('reg-phone').value.trim();
+  const pass = document.getElementById('reg-pass').value;
+  const msg = document.getElementById('auth-reg-msg');
+  if (!fname || !lname || !email || !pass) { showAuthMsg(msg, 'Please fill all required fields', 'error'); return; }
+  if (pass.length < 6) { showAuthMsg(msg, 'Password must be at least 6 characters', 'error'); return; }
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    const userData = {
+      uid: cred.user.uid, email, firstName: fname, lastName: lname, phone, role: selectedRegRole,
+      createdAt: serverTimestamp(), active: true,
+      ...(selectedRegRole === 'student' ? {
+        class: document.getElementById('reg-class').value,
+        admissionNo: document.getElementById('reg-admno').value.trim(),
+        feesStatus: 'unpaid'
+      } : {
+        subjects: [], classes: []
+      })
+    };
+    await setDoc(doc(db, 'users', cred.user.uid), userData);
+    await addNotification(cred.user.uid, 'Welcome to Blessed Secondary School! Your account has been created.', 'info');
+    showAuthMsg(msg, 'Account created! Logging you in...', 'success');
+  } catch(e) {
+    showAuthMsg(msg, getAuthError(e.code), 'error');
+  }
+}
+
+async function doLogout() {
+  await signOut(auth);
+  currentUser = null;
+  currentUserData = null;
+}
+
+function showAuthMsg(el, text, type) {
+  el.className = `auth-msg ${type}`;
+  el.textContent = text;
+}
+
+function getAuthError(code) {
+  const errs = {
+    'auth/user-not-found': 'No account found with this email.',
+    'auth/wrong-password': 'Incorrect password.',
+    'auth/email-already-in-use': 'This email is already registered.',
+    'auth/invalid-email': 'Invalid email address.',
+    'auth/weak-password': 'Password is too weak.',
+    'auth/too-many-requests': 'Too many attempts. Please try again later.',
+    'auth/invalid-credential': 'Invalid email or password.'
+  };
+  return errs[code] || 'An error occurred. Please try again.';
+}
+
+// ============================================================
+// STUDENT DASHBOARD
+// ============================================================
+async function loadStudentDashboard() {
+  const u = currentUserData;
+  // Stats
+  const [assignSnap, examSnap, paySnap] = await Promise.all([
+    getDocs(query(collection(db,'assignments'), where('class','==',u.class))),
+    getDocs(query(collection(db,'exams'), where('class','==',u.class))),
+    getDocs(query(collection(db,'payments'), where('userId','==',currentUser.uid)))
+  ]);
+  const feePaid = paySnap.docs.some(d => d.data().status === 'confirmed' && d.data().type === 'School Fees');
+  document.getElementById('student-stats-row').innerHTML = `
+    <div class="stat-widget"><div class="sw-icon gold">📝</div><div><div class="sw-val">${assignSnap.size}</div><div class="sw-label">Assignments</div></div></div>
+    <div class="stat-widget"><div class="sw-icon blue">📋</div><div><div class="sw-val">${examSnap.size}</div><div class="sw-label">Exams/Tests</div></div></div>
+    <div class="stat-widget"><div class="sw-icon ${feePaid?'green':'red'}">${feePaid?'✅':'⚠️'}</div><div><div class="sw-val">${feePaid?'Paid':'Unpaid'}</div><div class="sw-label">Fees Status</div></div></div>
+    <div class="stat-widget"><div class="sw-icon navy">🏫</div><div><div class="sw-val">${u.class||'—'}</div><div class="sw-label">My Class</div></div></div>
+  `;
+  loadAnnouncements('student-announce-list', u.role);
+  loadUpcomingTasks();
+}
+
+async function loadUpcomingTasks() {
+  const u = currentUserData;
+  const snap = await getDocs(query(collection(db,'assignments'), where('class','==',u.class)));
+  const el = document.getElementById('student-tasks-list');
+  if (snap.empty) { el.innerHTML = '<div class="empty-state"><div class="e-icon">✅</div><p>No pending assignments</p></div>'; return; }
+  el.innerHTML = snap.docs.slice(0,4).map(d => {
+    const a = d.data();
+    const due = a.dueDate ? new Date(a.dueDate).toLocaleDateString('en-NG') : 'Open';
+    return `<div class="announce-item info"><div class="announce-title">📝 ${a.title}</div><div class="announce-body">${a.subject} — Due: ${due}</div></div>`;
+  }).join('');
+}
+
+// ============================================================
+// TEACHER DASHBOARD
+// ============================================================
+async function loadTeacherDashboard() {
+  const u = currentUserData;
+  const [assignSnap, examSnap, submSnap] = await Promise.all([
+    getDocs(query(collection(db,'assignments'), where('teacherId','==',currentUser.uid))),
+    getDocs(query(collection(db,'exams'), where('teacherId','==',currentUser.uid))),
+    getDocs(query(collection(db,'submissions')))
+  ]);
+  document.getElementById('teacher-stats-row').innerHTML = `
+    <div class="stat-widget"><div class="sw-icon gold">📝</div><div><div class="sw-val">${assignSnap.size}</div><div class="sw-label">My Assignments</div></div></div>
+    <div class="stat-widget"><div class="sw-icon blue">📋</div><div><div class="sw-val">${examSnap.size}</div><div class="sw-label">My Exams</div></div></div>
+    <div class="stat-widget"><div class="sw-icon green">📁</div><div><div class="sw-val">${submSnap.size}</div><div class="sw-label">Submissions</div></div></div>
+    <div class="stat-widget"><div class="sw-icon navy">🏫</div><div><div class="sw-val">${(u.classes||[]).length}</div><div class="sw-label">Classes</div></div></div>
+  `;
+  loadAnnouncements('teacher-announce-list', 'teacher');
+  document.getElementById('teacher-activity').innerHTML = '<div class="text-sm text-gray text-center" style="padding:20px;">Recent activity will appear here</div>';
+}
+
+// ============================================================
+// ADMIN DASHBOARD
+// ============================================================
+async function loadAdminDashboard() {
+  const [studSnap, teachSnap, paySnap, assignSnap] = await Promise.all([
+    getDocs(query(collection(db,'users'), where('role','==','student'))),
+    getDocs(query(collection(db,'users'), where('role','==','teacher'))),
+    getDocs(collection(db,'payments')),
+    getDocs(collection(db,'assignments'))
+  ]);
+  const totalPaid = paySnap.docs.filter(d=>d.data().status==='confirmed').reduce((s,d)=>s+(d.data().amount||0),0);
+  document.getElementById('admin-stats-row').innerHTML = `
+    <div class="stat-widget"><div class="sw-icon blue">🎓</div><div><div class="sw-val">${studSnap.size}</div><div class="sw-label">Total Students</div></div></div>
+    <div class="stat-widget"><div class="sw-icon gold">👩‍🏫</div><div><div class="sw-val">${teachSnap.size}</div><div class="sw-label">Teachers</div></div></div>
+    <div class="stat-widget"><div class="sw-icon green">💰</div><div><div class="sw-val">₦${totalPaid.toLocaleString()}</div><div class="sw-label">Fees Collected</div></div></div>
+    <div class="stat-widget"><div class="sw-icon navy">📝</div><div><div class="sw-val">${assignSnap.size}</div><div class="sw-label">Assignments</div></div></div>
+  `;
+  loadAnnouncements('admin-announce-list', 'all', true);
+  document.getElementById('admin-activity').innerHTML = `<div class="announce-item info"><div class="announce-title">System Active</div><div class="announce-body">School management system is running normally.</div><div class="announce-meta"><span>Just now</span></div></div>`;
+}
+
+// ============================================================
+// ANNOUNCEMENTS
+// ============================================================
+async function loadAnnouncements(elId, audience, showDelete=false) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  const snap = await getDocs(query(collection(db,'announcements'), orderBy('createdAt','desc')));
+  const items = snap.docs.filter(d => {
+    const t = d.data().target;
+    return t === 'all' || t === audience;
+  });
+  if (items.length === 0) { el.innerHTML = '<div class="empty-state"><div class="e-icon">📭</div><p>No announcements</p></div>'; return; }
+  el.innerHTML = items.slice(0,5).map(d => {
+    const a = d.data();
+    const date = a.createdAt?.toDate ? a.createdAt.toDate().toLocaleDateString('en-NG') : 'Recently';
+    return `<div class="announce-item ${a.priority||''}">
+      <div class="announce-title">${a.title}</div>
+      <div class="announce-body">${a.body}</div>
+      <div class="announce-meta"><span>📅 ${date}</span>${showDelete?`<button class="btn btn-sm btn-red" onclick="deleteAnnouncement('${d.id}')">Delete</button>`:''}</div>
+    </div>`;
+  }).join('');
+}
+
+function openAddAnnouncement() { openModal('modal-announcement'); }
+
+async function saveAnnouncement() {
+  const title = document.getElementById('ann-title').value.trim();
+  const body = document.getElementById('ann-body').value.trim();
+  const priority = document.getElementById('ann-priority').value;
+  const target = document.getElementById('ann-target').value;
+  if (!title || !body) { showToast('Please fill all fields', 'error'); return; }
+  await addDoc(collection(db,'announcements'), { title, body, priority, target, createdBy: currentUser.uid, createdAt: serverTimestamp() });
+  closeModal('modal-announcement');
+  showToast('Announcement published!', 'success');
+  document.getElementById('ann-title').value = '';
+  document.getElementById('ann-body').value = '';
+  loadAdminDashboard();
+}
+
+async function deleteAnnouncement(id) {
+  if (!confirm('Delete this announcement?')) return;
+  await deleteDoc(doc(db,'announcements',id));
+  showToast('Announcement deleted', 'info');
+  loadAdminDashboard();
+}
+
+// ============================================================
+// TIMETABLE
+// ============================================================
+async function loadTimetable() {
+  const u = currentUserData;
+  const snap = await getDoc(doc(db,'timetables', u.class || 'JSS 1'));
+  const data = snap.exists() ? snap.data() : {};
+  const el = document.getElementById('timetable-content');
+  let html = '<table><thead><tr><th>Period/Time</th>';
+  DAYS.forEach(d => { html += `<th>${d}</th>`; });
+  html += '</tr></thead><tbody>';
+  PERIODS.forEach(period => {
+    html += `<tr><td class="tt-period">${period}</td>`;
+    DAYS.forEach(day => {
+      const cell = data[day]?.[period];
+      html += `<td class="tt-cell">${cell ? `<div class="tt-subject">${cell.subject||'—'}</div><div class="tt-teacher">${cell.teacher||''}</div>` : '<span class="text-gray text-sm">—</span>'}</td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  el.innerHTML = html;
+}
+
+function openManageTimetable() {
+  const form = document.getElementById('timetable-edit-form');
+  form.innerHTML = `
+    <div class="form-section"><label class="form-label">Class</label><select class="form-control" id="tt-class">${CLASSES.map(c=>`<option>${c}</option>`).join('')}</select></div>
+    <div class="form-section"><label class="form-label">Day</label><select class="form-control" id="tt-day">${DAYS.map(d=>`<option>${d}</option>`).join('')}</select></div>
+    <div class="form-section"><label class="form-label">Period</label><select class="form-control" id="tt-period">${PERIODS.map(p=>`<option>${p}</option>`).join('')}</select></div>
+    <div class="form-section"><label class="form-label">Subject</label><select class="form-control" id="tt-subject">${SUBJECTS.map(s=>`<option>${s}</option>`).join('')}</select></div>
+    <div class="form-section"><label class="form-label">Teacher Name</label><input class="form-control" id="tt-teacher" placeholder="Teacher name"></div>
+  `;
+  openModal('modal-timetable');
+}
+
+async function saveTimetable() {
+  const cls = document.getElementById('tt-class').value;
+  const day = document.getElementById('tt-day').value;
+  const period = document.getElementById('tt-period').value;
+  const subject = document.getElementById('tt-subject').value;
+  const teacher = document.getElementById('tt-teacher').value;
+  const ref = doc(db,'timetables',cls);
+  const snap = await getDoc(ref);
+  const existing = snap.exists() ? snap.data() : {};
+  if (!existing[day]) existing[day] = {};
+  existing[day][period] = { subject, teacher };
+  await setDoc(ref, existing);
+  closeModal('modal-timetable');
+  showToast('Timetable updated!', 'success');
+}
+
+// ============================================================
+// ASSIGNMENTS
+// ============================================================
+async function loadAssignments() {
+  const u = currentUserData;
+  const el = document.getElementById('assignments-list');
+  const snap = await getDocs(query(collection(db,'assignments'), where('class','==', u.class)));
+  if (snap.empty) { el.innerHTML = '<div class="empty-state"><div class="e-icon">📝</div><p>No assignments yet</p></div>'; return; }
+
+  // Check submitted ones
+  const submSnap = await getDocs(query(collection(db,'submissions'), where('userId','==',currentUser.uid)));
+  const submitted = new Set(submSnap.docs.map(d => d.data().assignmentId));
+
+  el.innerHTML = snap.docs.map(d => {
+    const a = d.data();
+    const due = a.dueDate ? new Date(a.dueDate).toLocaleDateString('en-NG') : 'Open';
+    const done = submitted.has(d.id);
+    return `<div class="card mb-4">
+      <div class="card-header">
+        <div><h3>${a.title}</h3><div class="text-sm text-gray">${a.subject} — ${a.class} — Due: ${due}</div></div>
+        <span class="badge ${done?'green':'orange'}">${done?'Submitted':'Pending'}</span>
+      </div>
+      <div class="card-body">
+        <p class="text-sm" style="margin-bottom:16px;">${a.description||'No description'}</p>
+        ${!done ? `<button class="btn btn-gold" onclick="openSubmitAssignment('${d.id}','${a.title}')">📤 Submit Assignment</button>` : '<span class="text-green font-bold">✅ Submitted</span>'}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openSubmitAssignment(id, title) {
+  currentSubmissionId = id;
+  const el = document.getElementById('submit-assignment-content');
+  el.innerHTML = `
+    <p class="text-sm text-gray mb-4">Submitting: <strong>${title}</strong></p>
+    <div class="form-section"><label class="form-label">Text Answer / Notes</label><textarea class="form-control" id="sub-text" rows="5" placeholder="Type your answer here..."></textarea></div>
+    <div class="form-section"><label class="form-label">File (optional — paste link or filename)</label><input class="form-control" id="sub-file" placeholder="e.g. https://drive.google.com/..."></div>
+    <button class="btn btn-gold w-full mt-4" onclick="submitAssignment()">📤 Submit</button>
+  `;
+  openModal('modal-submit-assignment');
+}
+
+async function submitAssignment() {
+  const text = document.getElementById('sub-text').value.trim();
+  const file = document.getElementById('sub-file').value.trim();
+  if (!text && !file) { showToast('Please provide an answer or file link', 'error'); return; }
+  const u = currentUserData;
+  await addDoc(collection(db,'submissions'), {
+    assignmentId: currentSubmissionId,
+    userId: currentUser.uid,
+    studentName: `${u.firstName} ${u.lastName}`,
+    class: u.class,
+    textAnswer: text,
+    fileLink: file,
+    submittedAt: serverTimestamp(),
+    status: 'pending',
+    score: null,
+    feedback: ''
+  });
+  closeModal('modal-submit-assignment');
+  showToast('Assignment submitted successfully!', 'success');
+  loadAssignments();
+}
+
+function renderCreateAssignmentForm() {
+  const u = currentUserData;
+  const el = document.getElementById('create-assignment-form');
+  el.innerHTML = `
+    <div class="form-row">
+      <div class="form-section"><label class="form-label">Assignment Title</label><input class="form-control" id="ca-title" placeholder="e.g. Chapter 3 Exercise"></div>
+      <div class="form-section"><label class="form-label">Subject</label><select class="form-control" id="ca-subject">${SUBJECTS.map(s=>`<option>${s}</option>`).join('')}</select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-section"><label class="form-label">Target Class</label><select class="form-control" id="ca-class">${CLASSES.map(c=>`<option>${c}</option>`).join('')}</select></div>
+      <div class="form-section"><label class="form-label">Due Date</label><input class="form-control" type="date" id="ca-due"></div>
+    </div>
+    <div class="form-section"><label class="form-label">Description / Instructions</label><textarea class="form-control" id="ca-desc" rows="5" placeholder="Describe the assignment..."></textarea></div>
+    <div class="form-section"><label class="form-label">Max Score</label><input class="form-control" type="number" id="ca-maxscore" placeholder="100" value="100"></div>
+    <button class="btn btn-gold" onclick="saveAssignment()">📤 Publish Assignment</button>
+  `;
+}
+
+async function saveAssignment() {
+  const title = document.getElementById('ca-title').value.trim();
+  const subject = document.getElementById('ca-subject').value;
+  const cls = document.getElementById('ca-class').value;
+  const due = document.getElementById('ca-due').value;
+  const desc = document.getElementById('ca-desc').value.trim();
+  const maxScore = parseInt(document.getElementById('ca-maxscore').value) || 100;
+  if (!title || !subject || !cls) { showToast('Fill all required fields', 'error'); return; }
+  const u = currentUserData;
+  await addDoc(collection(db,'assignments'), { title, subject, class: cls, dueDate: due, description: desc, maxScore, teacherId: currentUser.uid, teacherName: `${u.firstName} ${u.lastName}`, createdAt: serverTimestamp() });
+  showToast('Assignment published!', 'success');
+  renderCreateAssignmentForm();
+}
+
+// ============================================================
+// EXAMS
+// ============================================================
+async function loadExams() {
+  const u = currentUserData;
+  const el = document.getElementById('exams-list');
+  const snap = await getDocs(query(collection(db,'exams'), where('class','==',u.class)));
+  if (snap.empty) { el.innerHTML = '<div class="empty-state"><div class="e-icon">📋</div><p>No exams scheduled</p></div>'; return; }
+  const submSnap = await getDocs(query(collection(db,'examSubmissions'), where('userId','==',currentUser.uid)));
+  const done = new Set(submSnap.docs.map(d=>d.data().examId));
+  el.innerHTML = snap.docs.map(d => {
+    const e = d.data();
+    const taken = done.has(d.id);
+    const qCount = (e.objectives||[]).length + (e.theories||[]).length;
+    return `<div class="card mb-4">
+      <div class="card-header">
+        <div><h3>${e.title}</h3><div class="text-sm text-gray">${e.subject} — ${e.class} — ${qCount} questions — ${e.duration||30} mins</div></div>
+        <span class="badge ${taken?'green':e.published?'blue':'gray'}">${taken?'Completed':e.published?'Available':'Not Ready'}</span>
+      </div>
+      <div class="card-body">
+        ${!taken && e.published ? `<button class="btn btn-navy" onclick="startExam('${d.id}')">🚀 Start Exam</button>` : taken ? '<span class="text-green font-bold">✅ Completed</span>' : '<span class="text-gray text-sm">Exam not published yet</span>'}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderCreateExamForm() {
+  const el = document.getElementById('create-exam-form');
+  el.innerHTML = `
+    <div class="form-row">
+      <div class="form-section"><label class="form-label">Exam/Test Title</label><input class="form-control" id="ce-title" placeholder="e.g. Mid-Term Test"></div>
+      <div class="form-section"><label class="form-label">Subject</label><select class="form-control" id="ce-subject">${SUBJECTS.map(s=>`<option>${s}</option>`).join('')}</select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-section"><label class="form-label">Target Class</label><select class="form-control" id="ce-class">${CLASSES.map(c=>`<option>${c}</option>`).join('')}</select></div>
+      <div class="form-section"><label class="form-label">Duration (minutes)</label><input class="form-control" type="number" id="ce-duration" value="30" min="5"></div>
+    </div>
+    <hr class="divider">
+    <h4 style="margin-bottom:12px;">Objective Questions</h4>
+    <div id="obj-questions-list"></div>
+    <button class="btn btn-outline btn-sm mb-4" onclick="addObjQuestion()">+ Add Objective Question</button>
+    <hr class="divider">
+    <h4 style="margin-bottom:12px;">Theory Questions</h4>
+    <div id="theory-questions-list"></div>
+    <button class="btn btn-outline btn-sm mb-4" onclick="addTheoryQuestion()">+ Add Theory Question</button>
+    <hr class="divider">
+    <button class="btn btn-gold" onclick="saveExam(false)">💾 Save Draft</button>
+    <button class="btn btn-navy" style="margin-left:10px;" onclick="saveExam(true)">🚀 Publish Now</button>
+  `;
+  window._objQuestions = [];
+  window._theoryQuestions = [];
+}
+
+window.addObjQuestion = function() {
+  const list = document.getElementById('obj-questions-list');
+  const idx = window._objQuestions.length;
+  window._objQuestions.push({ question:'', options:['','','',''], answer: 0 });
+  const div = document.createElement('div');
+  div.className = 'card mb-4';
+  div.id = `obj-q-${idx}`;
+  div.innerHTML = `
+    <div class="card-body">
+      <div class="form-section"><label class="form-label">Question ${idx+1}</label><input class="form-control" id="oq-text-${idx}" placeholder="Enter question"></div>
+      ${['A','B','C','D'].map((opt,oi)=>`<div class="form-row" style="align-items:center;gap:8px;margin-bottom:8px;"><label style="min-width:20px;font-weight:600">${opt}.</label><input class="form-control" id="oq-opt-${idx}-${oi}" placeholder="Option ${opt}"><label style="display:flex;align-items:center;gap:4px;white-space:nowrap;font-size:.8rem;"><input type="radio" name="correct-${idx}" value="${oi}" onchange="setCorrect(${idx},${oi})"> Correct</label></div>`).join('')}
+    </div>
+  `;
+  list.appendChild(div);
+};
+
+window.setCorrect = function(qi, oi) { window._objQuestions[qi].answer = oi; };
+
+window.addTheoryQuestion = function() {
+  const list = document.getElementById('theory-questions-list');
+  const idx = window._theoryQuestions.length;
+  window._theoryQuestions.push({ question:'', marks:10 });
+  const div = document.createElement('div');
+  div.className = 'card mb-4';
+  div.innerHTML = `
+    <div class="card-body">
+      <div class="form-row">
+        <div class="form-section"><label class="form-label">Theory Question ${idx+1}</label><textarea class="form-control" id="tq-text-${idx}" rows="3" placeholder="Enter question..."></textarea></div>
+        <div class="form-section"><label class="form-label">Marks</label><input class="form-control" type="number" id="tq-marks-${idx}" value="10" min="1"></div>
+      </div>
+    </div>
+  `;
+  list.appendChild(div);
+};
+
+async function saveExam(publish) {
+  const title = document.getElementById('ce-title').value.trim();
+  const subject = document.getElementById('ce-subject').value;
+  const cls = document.getElementById('ce-class').value;
+  const duration = parseInt(document.getElementById('ce-duration').value)||30;
+  if (!title) { showToast('Enter exam title', 'error'); return; }
+  const objectives = window._objQuestions.map((q,i) => ({
+    question: document.getElementById(`oq-text-${i}`)?.value||'',
+    options: [0,1,2,3].map(oi => document.getElementById(`oq-opt-${i}-${oi}`)?.value||''),
+    answer: q.answer
+  }));
+  const theories = window._theoryQuestions.map((q,i) => ({
+    question: document.getElementById(`tq-text-${i}`)?.value||'',
+    marks: parseInt(document.getElementById(`tq-marks-${i}`)?.value)||10
+  }));
+  const u = currentUserData;
+  await addDoc(collection(db,'exams'), { title, subject, class:cls, duration, objectives, theories, published: publish, teacherId: currentUser.uid, teacherName:`${u.firstName} ${u.lastName}`, createdAt: serverTimestamp() });
+  showToast(publish ? 'Exam published!' : 'Exam saved as draft!', 'success');
+  renderCreateExamForm();
+}
+
+async function startExam(examId) {
+  const snap = await getDoc(doc(db,'exams',examId));
+  if (!snap.exists()) { showToast('Exam not found', 'error'); return; }
+  currentExam = { id: examId, ...snap.data() };
+  examAnswers = {};
+  showSection('take-exam');
+  renderExam();
+}
+
+function renderExam() {
+  const e = currentExam;
+  const duration = (e.duration||30) * 60;
+  const el = document.getElementById('exam-container');
+  let objHTML = (e.objectives||[]).map((q,i) => `
+    <div class="question-block">
+      <div class="q-num">Question ${i+1} (Objective)</div>
+      <div class="q-text">${q.question}</div>
+      <div class="q-options">
+        ${q.options.map((opt,oi)=>`<label class="q-option" id="opt-${i}-${oi}" onclick="selectOption(${i},${oi})"><input type="radio" name="q${i}" value="${oi}"> ${['A','B','C','D'][oi]}. ${opt}</label>`).join('')}
+      </div>
+    </div>`).join('');
+  let thHTML = (e.theories||[]).map((q,i) => `
+    <div class="question-block">
+      <div class="q-num">Theory Question ${i+1} (${q.marks} marks)</div>
+      <div class="q-text">${q.question}</div>
+      <textarea class="theory-answer" id="theory-${i}" rows="4" placeholder="Write your answer here..."></textarea>
+    </div>`).join('');
+
+  el.innerHTML = `
+    <div class="exam-header-bar">
+      <div><div style="color:#9ca3af;font-size:.8rem;">${e.subject} — ${e.class}</div><div style="font-size:1.1rem;font-weight:600;">${e.title}</div></div>
+      <div><div style="font-size:.75rem;color:#9ca3af;text-align:right;">Time Left</div><div class="exam-timer" id="exam-timer">--:--</div></div>
+    </div>
+    <div class="exam-body">
+      ${objHTML}${thHTML}
+      <button class="btn btn-navy w-full" onclick="submitExam()">📩 Submit Exam</button>
+    </div>
+  `;
+
+  let secs = duration;
+  clearInterval(examTimer);
+  examTimer = setInterval(() => {
+    secs--;
+    const m = Math.floor(secs/60).toString().padStart(2,'0');
+    const s = (secs%60).toString().padStart(2,'0');
+    const el2 = document.getElementById('exam-timer');
+    if (el2) el2.textContent = `${m}:${s}`;
+    if (secs <= 0) { clearInterval(examTimer); submitExam(); }
+  }, 1000);
+}
+
+function selectOption(qi, oi) {
+  examAnswers[qi] = oi;
+  document.querySelectorAll(`[id^="opt-${qi}-"]`).forEach(el => el.classList.remove('selected'));
+  const sel = document.getElementById(`opt-${qi}-${oi}`);
+  if (sel) sel.classList.add('selected');
+}
+
+async function submitExam() {
+  clearInterval(examTimer);
+  const e = currentExam;
+  // Auto-mark objectives
+  let score = 0;
+  let total = 0;
+  (e.objectives||[]).forEach((q,i) => {
+    total++;
+    if (examAnswers[i] !== undefined && parseInt(examAnswers[i]) === q.answer) score++;
+  });
+  const theoryAnswers = (e.theories||[]).map((q,i) => ({
+    question: q.question,
+    marks: q.marks,
+    answer: document.getElementById(`theory-${i}`)?.value||''
+  }));
+  const u = currentUserData;
+  await addDoc(collection(db,'examSubmissions'), {
+    examId: e.id, userId: currentUser.uid,
+    studentName: `${u.firstName} ${u.lastName}`,
+    class: u.class, subject: e.subject,
+    objAnswers: examAnswers, objScore: score, objTotal: total,
+    theoryAnswers, theoryScore: null, theoryMarked: false,
+    totalScore: null, published: false,
+    submittedAt: serverTimestamp()
+  });
+  showToast(`Exam submitted! Objective score: ${score}/${total}`, 'success');
+  showSection('exams');
+}
+
+// ============================================================
+// RESULTS
+// ============================================================
+async function loadResults() {
+  const el = document.getElementById('results-content');
+  const snap = await getDocs(query(collection(db,'examSubmissions'), where('userId','==',currentUser.uid), where('published','==',true)));
+  if (snap.empty) { el.innerHTML = '<div class="empty-state"><div class="e-icon">📊</div><p>No results published yet</p></div>'; return; }
+  el.innerHTML = snap.docs.map(d => {
+    const r = d.data();
+    const total = r.totalScore ?? r.objScore ?? 0;
+    const maxObj = r.objTotal || 0;
+    const maxTheory = (r.theoryAnswers||[]).reduce((s,t)=>s+t.marks,0);
+    const maxTotal = maxObj + maxTheory || 100;
+    const pct = Math.round((total/maxTotal)*100);
+    const grade = pct>=75?'A':pct>=60?'B':pct>=50?'C':pct>=45?'D':'F';
+    return `<div class="result-card">
+      <div class="result-header"><h3>${r.subject||'Subject'}</h3><p>${r.class||''} — ${r.submittedAt?.toDate?r.submittedAt.toDate().toLocaleDateString('en-NG'):''}</p></div>
+      <div class="result-score">
+        <div class="big">${total}<span style="font-size:1.2rem;color:var(--gray)">/${maxTotal}</span></div>
+        <div class="grade-badge grade-${grade}">${grade}</div>
+        <div class="text-gray text-sm mt-4">Percentage: ${pct}% &nbsp;|&nbsp; Objective: ${r.objScore||0}/${maxObj} &nbsp;|&nbsp; Theory: ${r.theoryScore||'Pending'}/${maxTheory}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+// FEES
+// ============================================================
+async function loadFees() {
+  const u = currentUserData;
+  const isJSS = (u.class||'').startsWith('JSS');
+  const tuition = isJSS ? FEES.JSS : FEES.SS;
+  const paySnap = await getDocs(query(collection(db,'payments'), where('userId','==',currentUser.uid)));
+  const payments = paySnap.docs.map(d=>({id:d.id,...d.data()}));
+  const paid = payments.filter(p=>p.status==='confirmed'&&p.type==='School Fees').reduce((s,p)=>s+p.amount,0);
+  const hostelPaid = payments.filter(p=>p.status==='confirmed'&&p.type==='Hostel Fees').reduce((s,p)=>s+p.amount,0);
+  const balance = Math.max(0, tuition - paid);
+  const el = document.getElementById('fees-content');
+  el.innerHTML = `
+    <div class="fee-card">
+      <h3>School Fees — ${u.class||'—'}</h3>
+      <div class="fee-amount">₦${tuition.toLocaleString()}</div>
+      <div><span class="fee-status ${balance===0?'paid':'unpaid'}">${balance===0?'✅ Fully Paid':'⚠️ Balance: ₦'+balance.toLocaleString()}</span></div>
+      <div style="margin-top:16px;font-size:.85rem;opacity:.8;">Paid: ₦${paid.toLocaleString()} &nbsp;|&nbsp; Remaining: ₦${balance.toLocaleString()}</div>
+    </div>
+    <div class="fee-card" style="margin-top:16px;">
+      <h3>Hostel Fees</h3>
+      <div class="fee-amount">₦${FEES.HOSTEL.toLocaleString()}</div>
+      <div><span class="fee-status ${hostelPaid>=FEES.HOSTEL?'paid':'unpaid'}">${hostelPaid>=FEES.HOSTEL?'✅ Paid':'⚠️ Unpaid'}</span></div>
+    </div>
+    ${balance > 0 ? `<button class="btn btn-gold" style="margin-bottom:16px;" onclick="openPaymentModal('School Fees',${tuition})">💳 Pay School Fees</button>` : ''}
+    ${hostelPaid < FEES.HOSTEL ? `<button class="btn btn-outline" style="margin-bottom:16px;margin-left:10px;" onclick="openPaymentModal('Hostel Fees',${FEES.HOSTEL})">🏠 Pay Hostel Fees</button>` : ''}
+    <div class="card">
+      <div class="card-header"><h3>Payment History</h3></div>
+      <div class="card-body">
+        ${payments.length === 0 ? '<div class="empty-state"><div class="e-icon">💳</div><p>No payments yet</p></div>' :
+        `<div class="table-wrap"><table><thead><tr><th>Type</th><th>Amount</th><th>Date</th><th>Method</th><th>Status</th><th>Receipt</th></tr></thead><tbody>
+        ${payments.map(p=>`<tr><td>${p.type}</td><td>₦${(p.amount||0).toLocaleString()}</td><td>${p.createdAt?.toDate?p.createdAt.toDate().toLocaleDateString('en-NG'):'—'}</td><td>${p.method||'—'}</td><td><span class="badge ${p.status==='confirmed'?'green':'gold'}">${p.status}</span></td><td><button class="btn btn-sm btn-outline" onclick="openReceipt('${p.id}')">🧾</button></td></tr>`).join('')}
+        </tbody></table></div>`}
+      </div>
+    </div>
+  `;
+}
+
+function openPaymentModal(type, amount) {
+  const el = document.getElementById('payment-modal-content');
+  el.innerHTML = `
+    <p class="text-sm text-gray mb-4">Paying: <strong>${type}</strong> — Amount: <strong>₦${amount.toLocaleString()}</strong></p>
+    <div class="pay-methods">
+      <div class="pay-method active" id="pm-paystack" onclick="selectPayMethod('paystack')">
+        <div class="pm-icon">💳</div>
+        <h4>Pay Online</h4>
+        <p>Debit card, bank transfer via Paystack</p>
+      </div>
+      <div class="pay-method" id="pm-bank" onclick="selectPayMethod('bank')">
+        <div class="pm-icon">🏦</div>
+        <h4>Bank Transfer</h4>
+        <p>Manual bank transfer — notify admin</p>
+      </div>
+    </div>
+    <div id="pm-paystack-area" class="mt-4">
+      <button class="btn btn-gold w-full" onclick="payWithPaystack('${type}',${amount})">💳 Pay Now — ₦${amount.toLocaleString()}</button>
+    </div>
+    <div id="pm-bank-area" class="hide mt-4">
+      <div class="bank-details">
+        <div class="bank-detail-row"><span class="label">Bank:</span><span class="value">${BANK.bank}</span></div>
+        <div class="bank-detail-row"><span class="label">Account Name:</span><span class="value">${BANK.name}</span></div>
+        <div class="bank-detail-row"><span class="label">Account Number:</span><span class="value" style="font-size:1.2rem;color:var(--navy);">${BANK.acct}</span></div>
+        <div class="bank-detail-row"><span class="label">Amount:</span><span class="value text-gold">₦${amount.toLocaleString()}</span></div>
+      </div>
+      <p class="text-sm text-gray mt-4" style="margin-bottom:12px;">After transferring, enter your reference below:</p>
+      <input class="form-control" id="bank-ref" placeholder="Bank transfer reference / teller number">
+      <button class="btn btn-navy w-full mt-4" onclick="submitManualPayment('${type}',${amount})">✅ I've Transferred</button>
+    </div>
+  `;
+  openModal('modal-payment');
+}
+
+window.selectPayMethod = function(method) {
+  document.getElementById('pm-paystack').classList.toggle('active', method==='paystack');
+  document.getElementById('pm-bank').classList.toggle('active', method==='bank');
+  document.getElementById('pm-paystack-area').classList.toggle('hide', method!=='paystack');
+  document.getElementById('pm-bank-area').classList.toggle('hide', method!=='bank');
+};
+
+function payWithPaystack(type, amount) {
+  const u = currentUserData;
+  const ref = 'BSS' + Date.now();
+  const handler = PaystackPop.setup({
+    key: PAYSTACK_KEY,
+    email: currentUser.email,
+    amount: amount * 100,
+    currency: 'NGN',
+    ref,
+    metadata: { name: `${u.firstName} ${u.lastName}`, class: u.class },
+    callback: async function(response) {
+      await addDoc(collection(db,'payments'), {
+        userId: currentUser.uid, studentName:`${u.firstName} ${u.lastName}`, class:u.class,
+        type, amount, method:'Paystack', reference:response.reference, status:'confirmed', createdAt:serverTimestamp()
+      });
+      await addNotification(currentUser.uid, `Payment of ₦${amount.toLocaleString()} for ${type} confirmed!`, 'success');
+      closeModal('modal-payment');
+      showToast('Payment successful!', 'success');
+      loadFees();
+    },
+    onClose: function() { showToast('Payment cancelled', 'error'); }
+  });
+  handler.openIframe();
+}
+
+async function submitManualPayment(type, amount) {
+  const ref = document.getElementById('bank-ref').value.trim();
+  if (!ref) { showToast('Enter transfer reference', 'error'); return; }
+  const u = currentUserData;
+  await addDoc(collection(db,'payments'), {
+    userId: currentUser.uid, studentName:`${u.firstName} ${u.lastName}`, class:u.class,
+    type, amount, method:'Bank Transfer', reference:ref, status:'pending', createdAt:serverTimestamp()
+  });
+  await addNotification(currentUser.uid, `Your bank transfer of ₦${amount.toLocaleString()} for ${type} is pending admin confirmation.`, 'info');
+  closeModal('modal-payment');
+  showToast('Transfer recorded! Awaiting admin confirmation.', 'info');
+  loadFees();
+}
+
+async function openReceipt(payId) {
+  const snap = await getDoc(doc(db,'payments',payId));
+  if (!snap.exists()) return;
+  const p = snap.data();
+  const date = p.createdAt?.toDate ? p.createdAt.toDate().toLocaleDateString('en-NG') : new Date().toLocaleDateString('en-NG');
+  document.getElementById('receipt-content').innerHTML = `
+    <div style="text-align:center;margin-bottom:24px;">
+      <div style="font-size:2.5rem;">🏫</div>
+      <h2 style="font-family:'Playfair Display',serif;color:var(--navy);">Blessed Secondary School</h2>
+      <p style="color:var(--gray);font-size:.85rem;">Lusada, Ogun State, Nigeria</p>
+    </div>
+    <div style="background:var(--lightgray);border-radius:10px;padding:16px;text-align:center;margin-bottom:20px;">
+      <div style="font-size:.75rem;color:var(--gray);margin-bottom:4px;">PAYMENT RECEIPT</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--navy);">₦${(p.amount||0).toLocaleString()}</div>
+      <span class="badge ${p.status==='confirmed'?'green':'gold'}">${p.status?.toUpperCase()}</span>
+    </div>
+    ${['Student','Class','Type','Method','Reference','Date'].map((label,i) => {
+      const vals = [p.studentName,p.class,p.type,p.method,p.reference,date];
+      return `<div class="bank-detail-row"><span class="label">${label}</span><span class="value">${vals[i]||'—'}</span></div>`;
+    }).join('')}
+    <p style="font-size:.75rem;color:var(--gray);text-align:center;margin-top:20px;">Thank you for your payment. God bless you!</p>
+  `;
+  openModal('modal-receipt');
+}
+
+// ============================================================
+// ADMIN FEES
+// ============================================================
+async function loadAdminFees() {
+  const snap = await getDocs(query(collection(db,'payments'), orderBy('createdAt','desc')));
+  const payments = snap.docs.map(d=>({id:d.id,...d.data()}));
+  const total = payments.filter(p=>p.status==='confirmed').reduce((s,p)=>s+p.amount,0);
+  const pending = payments.filter(p=>p.status==='pending').length;
+  document.getElementById('admin-fee-collected').textContent = '₦'+total.toLocaleString();
+  document.getElementById('admin-fee-pending').textContent = pending;
+  document.getElementById('fees-tbody').innerHTML = payments.map(p => {
+    const date = p.createdAt?.toDate?p.createdAt.toDate().toLocaleDateString('en-NG'):'—';
+    return `<tr>
+      <td>${p.studentName||'—'}</td><td>${p.class||'—'}</td><td>₦${(p.amount||0).toLocaleString()}</td>
+      <td>${p.type||'—'}</td><td>${date}</td><td>${p.method||'—'}</td>
+      <td><span class="badge ${p.status==='confirmed'?'green':'gold'}">${p.status}</span>
+        ${p.status==='pending'?`<button class="btn btn-sm btn-green" style="margin-left:4px;" onclick="confirmPayment('${p.id}')">Confirm</button>`:''}
+      </td>
+      <td><button class="btn btn-sm btn-outline" onclick="openReceipt('${p.id}')">🧾</button></td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="8" class="text-center text-gray">No payments yet</td></tr>';
+}
+
+window.confirmPayment = async function(id) {
+  await updateDoc(doc(db,'payments',id), { status:'confirmed' });
+  const snap = await getDoc(doc(db,'payments',id));
+  const p = snap.data();
+  await addNotification(p.userId, `Your bank transfer of ₦${p.amount?.toLocaleString()} has been confirmed!`, 'success');
+  showToast('Payment confirmed!', 'success');
+  loadAdminFees();
+};
+
+function openAddPayment() { openModal('modal-admin-payment'); }
+
+async function saveAdminPayment() {
+  const student = document.getElementById('adm-pay-student').value.trim();
+  const amount = parseFloat(document.getElementById('adm-pay-amount').value);
+  const type = document.getElementById('adm-pay-type').value;
+  const method = document.getElementById('adm-pay-method').value;
+  const ref = document.getElementById('adm-pay-ref').value.trim();
+  if (!student || !amount) { showToast('Fill all fields', 'error'); return; }
+  await addDoc(collection(db,'payments'), { studentName:student, amount, type, method, reference:ref, status:'confirmed', createdAt:serverTimestamp() });
+  closeModal('modal-admin-payment');
+  showToast('Payment recorded!', 'success');
+  loadAdminFees();
+}
+
+// ============================================================
+// MANAGE STUDENTS / TEACHERS
+// ============================================================
+async function loadManageStudents() {
+  const snap = await getDocs(query(collection(db,'users'), where('role','==','student')));
+  const rows = snap.docs.map(d => {
+    const u = d.data();
+    return `<tr>
+      <td>${u.firstName||''} ${u.lastName||''}</td>
+      <td>${u.admissionNo||'—'}</td><td>${u.class||'—'}</td><td>${u.email||'—'}</td>
+      <td><span class="badge ${u.feesStatus==='paid'?'green':'red'}">${u.feesStatus||'unpaid'}</span></td>
+      <td><button class="btn btn-sm btn-red" onclick="deleteUser('${d.id}')">Delete</button></td>
+    </tr>`;
+  });
+  document.getElementById('students-tbody').innerHTML = rows.join('') || '<tr><td colspan="6" class="text-center text-gray">No students yet</td></tr>';
+}
+
+async function loadManageTeachers() {
+  const snap = await getDocs(query(collection(db,'users'), where('role','==','teacher')));
+  const rows = snap.docs.map(d => {
+    const u = d.data();
+    return `<tr>
+      <td>${u.firstName||''} ${u.lastName||''}</td><td>${u.email||'—'}</td>
+      <td>${(u.subjects||[]).join(', ')||'—'}</td><td>${(u.classes||[]).join(', ')||'—'}</td>
+      <td><button class="btn btn-sm btn-red" onclick="deleteUser('${d.id}')">Delete</button></td>
+    </tr>`;
+  });
+  document.getElementById('teachers-tbody').innerHTML = rows.join('') || '<tr><td colspan="5" class="text-center text-gray">No teachers yet</td></tr>';
+}
+
+function openAddUser(type) {
+  addingUserType = type;
+  document.getElementById('add-user-title').textContent = `Add ${type.charAt(0).toUpperCase()+type.slice(1)}`;
+  const form = document.getElementById('add-user-form');
+  const common = `
+    <div class="form-row"><div class="form-section"><label class="form-label">First Name</label><input class="form-control" id="au-fname" placeholder="First name"></div><div class="form-section"><label class="form-label">Last Name</label><input class="form-control" id="au-lname" placeholder="Last name"></div></div>
+    <div class="form-section"><label class="form-label">Email</label><input class="form-control" id="au-email" type="email" placeholder="email@school.com"></div>
+    <div class="form-section"><label class="form-label">Phone</label><input class="form-control" id="au-phone" placeholder="08012345678"></div>
+    <div class="form-section"><label class="form-label">Password</label><input class="form-control" id="au-pass" type="password" placeholder="Temporary password"></div>
+  `;
+  if (type === 'student') {
+    form.innerHTML = common + `
+      <div class="form-row"><div class="form-section"><label class="form-label">Class</label><select class="form-control" id="au-class">${CLASSES.map(c=>`<option>${c}</option>`).join('')}</select></div><div class="form-section"><label class="form-label">Admission No</label><input class="form-control" id="au-admno" placeholder="BSS/2024/001"></div></div>
+    `;
+  } else {
+    form.innerHTML = common + `
+      <div class="form-section"><label class="form-label">Subjects (comma-separated)</label><input class="form-control" id="au-subjects" placeholder="Mathematics, English"></div>
+      <div class="form-section"><label class="form-label">Classes (comma-separated)</label><input class="form-control" id="au-classes" placeholder="SS 1, SS 2"></div>
+    `;
+  }
+  openModal('modal-add-user');
+}
+
+async function saveUser() {
+  const fname = document.getElementById('au-fname').value.trim();
+  const lname = document.getElementById('au-lname').value.trim();
+  const email = document.getElementById('au-email').value.trim();
+  const phone = document.getElementById('au-phone').value.trim();
+  const pass = document.getElementById('au-pass').value;
+  if (!fname || !lname || !email || !pass) { showToast('Fill all required fields', 'error'); return; }
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    const ud = {
+      uid: cred.user.uid, firstName:fname, lastName:lname, email, phone,
+      role: addingUserType, active: true, createdAt: serverTimestamp(),
+      ...(addingUserType==='student' ? {
+        class: document.getElementById('au-class').value,
+        admissionNo: document.getElementById('au-admno').value.trim(),
+        feesStatus:'unpaid'
+      } : {
+        subjects: (document.getElementById('au-subjects').value||'').split(',').map(s=>s.trim()).filter(Boolean),
+        classes: (document.getElementById('au-classes').value||'').split(',').map(s=>s.trim()).filter(Boolean)
+      })
+    };
+    await setDoc(doc(db,'users',cred.user.uid), ud);
+    await addNotification(cred.user.uid, `Welcome to Blessed Secondary School, ${fname}!`, 'info');
+    closeModal('modal-add-user');
+    showToast('Account created!', 'success');
+    addingUserType === 'student' ? loadManageStudents() : loadManageTeachers();
+  } catch(e) {
+    showToast(getAuthError(e.code), 'error');
+  }
+}
+
+async function deleteUser(uid) {
+  if (!confirm('Delete this user? This cannot be undone.')) return;
+  await deleteDoc(doc(db,'users',uid));
+  showToast('User deleted', 'info');
+  loadManageStudents();
+  loadManageTeachers();
+}
+
+// ============================================================
+// MANAGE CLASSES
+// ============================================================
+async function loadManageClasses() {
+  const el = document.getElementById('classes-content');
+  const snaps = await Promise.all(CLASSES.map(c => getDoc(doc(db,'timetables',c))));
+  el.innerHTML = `<div class="features-grid">` + CLASSES.map((cls,i) => {
+    const data = snaps[i].exists() ? snaps[i].data() : {};
+    const filled = Object.values(data).reduce((s,d)=>s+Object.keys(d||{}).length,0);
+    return `<div class="feat-card">
+      <div class="feat-icon ${cls.startsWith('JSS')?'blue':'gold'}">${cls.startsWith('JSS')?'📘':'📗'}</div>
+      <h3>${cls}</h3>
+      <p>${filled} periods scheduled</p>
+      <button class="btn btn-sm btn-outline" style="margin-top:12px;" onclick="openManageTimetableFor('${cls}')">⚙️ Edit Timetable</button>
+    </div>`;
+  }).join('') + '</div>';
+}
+
+window.openManageTimetableFor = function(cls) {
+  openManageTimetable();
+  setTimeout(() => { document.getElementById('tt-class').value = cls; }, 100);
+};
+
+// ============================================================
+// GRADE STUDENTS
+// ============================================================
+async function loadGradeStudents() {
+  const el = document.getElementById('grade-content');
+  const snap = await getDocs(query(collection(db,'submissions')));
+  const subs = snap.docs.map(d=>({id:d.id,...d.data()}));
+  if (subs.length === 0) { el.innerHTML = '<div class="empty-state"><div class="e-icon">✏️</div><p>No submissions to grade</p></div>'; return; }
+  el.innerHTML = `<div class="card"><div class="card-body"><div class="table-wrap"><table>
+    <thead><tr><th>Student</th><th>Assignment</th><th>Class</th><th>Submitted</th><th>Status</th><th>Score</th><th>Action</th></tr></thead>
+    <tbody>${subs.map(s=>`<tr>
+      <td>${s.studentName||'—'}</td><td>${s.assignmentId||'—'}</td><td>${s.class||'—'}</td>
+      <td>${s.submittedAt?.toDate?s.submittedAt.toDate().toLocaleDateString('en-NG'):'—'}</td>
+      <td><span class="badge ${s.status==='graded'?'green':'orange'}">${s.status||'pending'}</span></td>
+      <td>${s.score??'—'}</td>
+      <td><button class="btn btn-sm btn-navy" onclick="openGradeModal('${s.id}')">✏️ Grade</button></td>
+    </tr>`).join('')}</tbody>
+  </table></div></div></div>`;
+}
+
+async function openGradeModal(subId) {
+  const snap = await getDoc(doc(db,'submissions',subId));
+  if (!snap.exists()) return;
+  const s = snap.data();
+  currentSubmissionId = subId;
+  const el = document.getElementById('grade-modal-content');
+  el.innerHTML = `
+    <div class="form-section"><label class="form-label">Student</label><div class="form-control" style="background:var(--lightgray)">${s.studentName||'—'}</div></div>
+    <div class="form-section"><label class="form-label">Answer Text</label><div style="background:var(--lightgray);border-radius:8px;padding:12px;font-size:.88rem;min-height:80px;">${s.textAnswer||'(No text)'}</div></div>
+    ${s.fileLink?`<div class="form-section"><label class="form-label">File Link</label><a href="${s.fileLink}" target="_blank" class="btn btn-sm btn-outline">📎 View File</a></div>`:''}
+    <div class="form-row">
+      <div class="form-section"><label class="form-label">Score</label><input class="form-control" id="grade-score" type="number" placeholder="0-100" value="${s.score||''}"></div>
+      <div class="form-section"><label class="form-label">Max Score</label><input class="form-control" id="grade-max" type="number" placeholder="100" value="100"></div>
+    </div>
+    <div class="form-section"><label class="form-label">Feedback</label><textarea class="form-control" id="grade-feedback" rows="3" placeholder="Write feedback...">${s.feedback||''}</textarea></div>
+    <button class="btn btn-gold w-full mt-4" onclick="saveGrade()">💾 Save Grade</button>
+  `;
+  openModal('modal-grade');
+}
+
+async function saveGrade() {
+  const score = parseInt(document.getElementById('grade-score').value)||0;
+  const feedback = document.getElementById('grade-feedback').value.trim();
+  const snap = await getDoc(doc(db,'submissions',currentSubmissionId));
+  const s = snap.data();
+  await updateDoc(doc(db,'submissions',currentSubmissionId), { score, feedback, status:'graded' });
+  if (s.userId) await addNotification(s.userId, `Your assignment has been graded. Score: ${score}. ${feedback}`, 'info');
+  closeModal('modal-grade');
+  showToast('Grade saved!', 'success');
+  loadGradeStudents();
+}
+
+// ============================================================
+// ADMIN RESULTS
+// ============================================================
+async function loadAdminResults() {
+  const snap = await getDocs(collection(db,'examSubmissions'));
+  const subs = snap.docs.map(d=>({id:d.id,...d.data()}));
+  document.getElementById('admin-results-tbody').innerHTML = subs.map(s => {
+    const objS = s.objScore||0; const objT = s.objTotal||0;
+    const thS = s.theoryScore||0;
+    const total = s.totalScore ?? (objS+thS);
+    const maxT = objT + (s.theoryAnswers||[]).reduce((a,t)=>a+t.marks,0);
+    const pct = maxT ? Math.round(total/maxT*100) : 0;
+    const grade = pct>=75?'A':pct>=60?'B':pct>=50?'C':pct>=45?'D':'F';
+    return `<tr>
+      <td>${s.studentName||'—'}</td><td>${s.class||'—'}</td><td>${s.subject||'—'}</td>
+      <td>${objS}/${objT}</td><td>${s.theoryScore??'—'}</td><td>${total}/${maxT}</td>
+      <td><span class="badge grade-${grade}" style="font-size:.8rem;">${grade}</span></td>
+      <td><span class="badge ${s.published?'green':'gray'}">${s.published?'Published':'Draft'}</span></td>
+      <td>
+        ${!s.published?`<button class="btn btn-sm btn-green" onclick="publishResult('${s.id}','${s.userId}')">Publish</button>`:''}
+        <button class="btn btn-sm btn-navy" onclick="openExamGradeModal('${s.id}')">Grade Theory</button>
+      </td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="9" class="text-center text-gray">No exam submissions yet</td></tr>';
+}
+
+window.openExamGradeModal = async function(id) {
+  const snap = await getDoc(doc(db,'examSubmissions',id));
+  if (!snap.exists()) return;
+  const s = snap.data();
+  currentSubmissionId = id;
+  const el = document.getElementById('grade-modal-content');
+  const theories = s.theoryAnswers||[];
+  el.innerHTML = `
+    <div class="text-sm text-gray mb-4">${s.studentName} — ${s.subject}</div>
+    <p class="form-label">Theory Answers & Scores</p>
+    ${theories.map((t,i)=>`
+      <div class="card mb-4"><div class="card-body">
+        <div class="form-label">Q${i+1}: ${t.question} (${t.marks} marks)</div>
+        <div style="background:var(--lightgray);border-radius:8px;padding:10px;margin:8px 0;font-size:.85rem;">${t.answer||'(No answer)'}</div>
+        <input class="form-control" id="th-score-${i}" type="number" placeholder="Score" max="${t.marks}" value="${t.score||''}">
+      </div></div>
+    `).join('')}
+    <button class="btn btn-gold w-full mt-4" onclick="saveTheoryGrade(${theories.length})">💾 Save Theory Scores</button>
+  `;
+  openModal('modal-grade');
+};
+
+window.saveTheoryGrade = async function(count) {
+  let total = 0;
+  const answers = [];
+  for (let i=0;i<count;i++) {
+    const score = parseInt(document.getElementById(`th-score-${i}`)?.value)||0;
+    total += score;
+    const snap = await getDoc(doc(db,'examSubmissions',currentSubmissionId));
+    const ta = snap.data().theoryAnswers||[];
+    if (ta[i]) { ta[i].score = score; answers.push(ta[i]); } else answers.push({score});
+  }
+  const snap = await getDoc(doc(db,'examSubmissions',currentSubmissionId));
+  const s = snap.data();
+  const totalScore = (s.objScore||0) + total;
+  await updateDoc(doc(db,'examSubmissions',currentSubmissionId), { theoryAnswers:answers, theoryScore:total, theoryMarked:true, totalScore });
+  closeModal('modal-grade');
+  showToast('Theory scores saved!', 'success');
+  loadAdminResults();
+};
+
+async function publishResult(id, userId) {
+  await updateDoc(doc(db,'examSubmissions',id), { published:true });
+  if (userId) await addNotification(userId, 'Your exam result has been published. Check your results!', 'success');
+  showToast('Result published!', 'success');
+  loadAdminResults();
+}
+
+// ============================================================
+// ADMIN SUBMISSIONS
+// ============================================================
+async function loadAdminSubmissions() {
+  const snap = await getDocs(query(collection(db,'submissions'), orderBy('submittedAt','desc')));
+  document.getElementById('submissions-tbody').innerHTML = snap.docs.map(d => {
+    const s = d.data();
+    const date = s.submittedAt?.toDate?s.submittedAt.toDate().toLocaleDateString('en-NG'):'—';
+    return `<tr>
+      <td>${s.studentName||'—'}</td><td>${s.assignmentId||'—'}</td><td>${s.class||'—'}</td>
+      <td>${date}</td><td><span class="badge ${s.status==='graded'?'green':'orange'}">${s.status||'pending'}</span></td>
+      <td>${s.score??'—'}</td>
+      <td><button class="btn btn-sm btn-navy" onclick="openGradeModal('${d.id}')">✏️ Grade</button></td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="7" class="text-center text-gray">No submissions yet</td></tr>';
+}
+
+// ============================================================
+// MY CLASSES (TEACHER)
+// ============================================================
+async function loadMyClasses() {
+  const u = currentUserData;
+  const el = document.getElementById('my-classes-content');
+  const classes = u.classes || [];
+  const subjects = u.subjects || [];
+  if (classes.length === 0) {
+    el.innerHTML = '<div class="empty-state"><div class="e-icon">🏫</div><p>No classes assigned yet. Contact admin.</p></div>'; return;
+  }
+  el.innerHTML = `<div class="features-grid">${classes.map(cls=>`
+    <div class="feat-card">
+      <div class="feat-icon blue">📘</div>
+      <h3>${cls}</h3>
+      <p>Subjects: ${subjects.join(', ')||'—'}</p>
+      <button class="btn btn-sm btn-outline mt-4" onclick="showSection('create-assignment')">+ Assignment</button>
+      <button class="btn btn-sm btn-navy" style="margin-left:6px;margin-top:12px;" onclick="showSection('create-exam')">+ Exam</button>
+    </div>
+  `).join('')}</div>`;
+}
+
+// ============================================================
+// NOTIFICATIONS
+// ============================================================
+async function loadNotifications() {
+  const snap = await getDocs(query(collection(db,'notifications'), where('userId','==',currentUser.uid), orderBy('createdAt','desc')));
+  const el = document.getElementById('notif-list');
+  if (snap.empty) { el.innerHTML = '<div class="empty-state"><div class="e-icon">🔔</div><p>No notifications</p></div>'; return; }
+  el.innerHTML = snap.docs.map(d => {
+    const n = d.data();
+    const date = n.createdAt?.toDate?n.createdAt.toDate().toLocaleDateString('en-NG'):'';
+    return `<div class="announce-item ${n.type||'info'}" style="${n.read?'opacity:.6':''}">
+      <div class="announce-title">${n.read?'':'🔴 '}${n.message}</div>
+      <div class="announce-meta"><span>${date}</span></div>
+    </div>`;
+  }).join('');
+  // Mark as read
+  snap.docs.forEach(d => { if (!d.data().read) updateDoc(doc(db,'notifications',d.id),{read:true}); });
+  document.getElementById('notif-count').textContent = '0';
+}
+
+async function loadNotifCount() {
+  const snap = await getDocs(query(collection(db,'notifications'), where('userId','==',currentUser.uid), where('read','==',false)));
+  document.getElementById('notif-count').textContent = snap.size > 0 ? snap.size : '0';
+}
+
+async function addNotification(userId, message, type='info') {
+  await addDoc(collection(db,'notifications'), { userId, message, type, read:false, createdAt:serverTimestamp() });
+}
+
+async function markAllRead() {
+  const snap = await getDocs(query(collection(db,'notifications'), where('userId','==',currentUser.uid), where('read','==',false)));
+  await Promise.all(snap.docs.map(d => updateDoc(doc(db,'notifications',d.id), {read:true})));
+  loadNotifications();
+}
+
+// ============================================================
+// PROFILE
+// ============================================================
+async function loadProfile() {
+  const u = currentUserData;
+  document.getElementById('profile-badges').innerHTML = `<span class="badge ${u.role==='admin'?'gold':u.role==='teacher'?'blue':'green'}">${u.role?.toUpperCase()}</span>${u.class?`<span class="badge gray">${u.class}</span>`:''}`;
+  const fields = u.role==='student' ? [
+    ['Admission No', u.admissionNo||'—'],
+    ['Class', u.class||'—'],
+    ['Phone', u.phone||'—'],
+    ['Fees Status', u.feesStatus||'—'],
+  ] : [
+    ['Phone', u.phone||'—'],
+    ['Role', u.role||'—'],
+    ['Subjects', (u.subjects||[]).join(', ')||'—'],
+    ['Classes', (u.classes||[]).join(', ')||'—'],
+  ];
+  document.getElementById('profile-info-section').innerHTML = fields.map(([l,v])=>`
+    <div class="bank-detail-row"><span class="label">${l}</span><span class="value">${v}</span></div>
+  `).join('');
+}
+
+async function changePassword() {
+  const current = document.getElementById('cp-current').value;
+  const newPass = document.getElementById('cp-new').value;
+  const confirm = document.getElementById('cp-confirm').value;
+  if (!current || !newPass || !confirm) { showToast('Fill all fields', 'error'); return; }
+  if (newPass !== confirm) { showToast('Passwords do not match', 'error'); return; }
+  if (newPass.length < 6) { showToast('Password too short', 'error'); return; }
+  try {
+    const cred = EmailAuthProvider.credential(currentUser.email, current);
+    await reauthenticateWithCredential(currentUser, cred);
+    await updatePassword(currentUser, newPass);
+    showToast('Password updated!', 'success');
+    document.getElementById('cp-current').value = '';
+    document.getElementById('cp-new').value = '';
+    document.getElementById('cp-confirm').value = '';
+  } catch(e) {
+    showToast(e.code==='auth/wrong-password'?'Current password incorrect':'Error updating password','error');
+  }
+}
+
+// ============================================================
+// MODALS & UI UTILS
+// ============================================================
+function openModal(id) { document.getElementById(id).classList.add('active'); }
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay-sidebar').classList.toggle('active');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay-sidebar').classList.remove('active');
+}
+
+function showToast(msg, type='info') {
+  const tc = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  const icons = { success:'✅', error:'❌', info:'ℹ️' };
+  t.innerHTML = `<span>${icons[type]||'ℹ️'}</span><span>${msg}</span>`;
+  tc.appendChild(t);
+  setTimeout(() => t.remove(), 4000);
+}
+
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('active'); });
+});
+
+// Fallback: force hide loader after 5s if Firebase is slow
+setTimeout(() => {
+  const l = document.getElementById('loading-overlay');
+  if (l) l.style.display = 'none';
+  if (!currentUser) showLanding();
+}, 5000);
+</script>
+</body>
+</html>
